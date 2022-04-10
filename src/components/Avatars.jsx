@@ -16,7 +16,7 @@ export const avatars = {
       <StaticImage
         {...common}
         src="../../content/assets/avatars/narigon.png"
-        alt="narigon"
+        alt="narigon avatar"
       />
     )
   },

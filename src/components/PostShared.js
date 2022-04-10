@@ -61,9 +61,11 @@ export function PostList({ node }) {
           <RoughNotation
             type="highlight"
             color={
-              theme === "light" ? colors.highlight.light : colors.highlight.dark
+              colors.brandSecondary.dark
             }
             show={hover}
+						animationDuration={1500}
+						strokeWidth={4}
           >
             {title}
           </RoughNotation>
