@@ -58,7 +58,7 @@ const Bio = React.memo(
             </Text>
             <Text>
               This blog is my outlet where I can talk about various development
-              related topics aswell as some hobby related stuff. I also enjoy
+              related topics as well as some hobby related stuff. I also enjoy
               photography and mechanical keyboards. I can guarantee you will be
               finding more about those in my blog.{" "}
             </Text>
