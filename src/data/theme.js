@@ -25,7 +25,6 @@ const injectTheme = (obj, theme) => {
 }
 
 const baseColors = {
-<<<<<<< HEAD
 	text: {
 		100: {
 			dark: "#eee",
@@ -88,70 +87,6 @@ const baseColors = {
 		dark: "#8a7aff",
 		light: "#3725c2",
 	},
-=======
-	text: {
-		100: {
-			dark: "#eee",
-			light: "#29292c",
-		},
-		300: {
-			dark: "#9eaab7",
-			light: "#454547",
-		},
-		500: {
-			dark: "#718096",
-			light: "#38404e",
-		},
-	},
-	bg: {
-		100: {
-			light: "#f3f3f3",
-			dark: "#141621",
-		},
-		300: {
-			light: "#e2e9ec",
-			dark: "#181b2b",
-		},
-		500: {
-			light: "#E5E7EB",
-			dark: "#232735",
-		},
-	},
-	bgPrimary: {
-		light: "#f3f3f3",
-		dark: "#141621",
-	},
-	bgSecondary: {
-		light: "#e2e9ec",
-		dark: "#181b2b",
-	},
-	bgTertiary: {
-		light: "gray.200",
-		dark: "#232735",
-	},
-	bgBrand: {
-		light: "#f5e5ec",
-		dark: "hsl(333deg 52% 14%)",
-	},
-	borderSubtle: {
-		dark: "#1e2131",
-		light: "#e8e8e8",
-	},
-	borderSubtlePrimary: {
-		light: "#dadbde",
-		dark: "#1f2231",
-	},
-	brand: {
-		100: {
-			dark: "#f9bc60",
-			light: "#e16162",
-		},
-	},
-	brandSecondary: {
-		dark: "#62daff",
-		light: "#256bc1",
-	},
->>>>>>> 86d987e9ffc6849e03df70856390e88838dfeb26
 }
 
 export const colors = {
