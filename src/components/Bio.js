@@ -49,20 +49,12 @@ const Bio = React.memo(
           </Heading>
           <Stack spacing={4} fontSize="16px">
             <Text>
-              I'm currently a full-stack developer at{" "}
-              <Link
-                href="https://oksidia.fi"
-                rel="external nofollower noopener"
-                color="brandSecondary"
-              >
-                Oksidia Oy
-              </Link>
-              . I'm 25 years old and I'm trying to get better at software
+              I'm 25 years old and I'm trying to get better at software
               development.
             </Text>
             <Text>
               This blog is my outlet where I can talk about various development
-              related topics aswell as some hobby related stuff. I also enjoy
+              related topics as well as some hobby related stuff. I also enjoy
               photography and mechanical keyboards. I can guarantee you will be
               finding more about those in my blog.{" "}
             </Text>

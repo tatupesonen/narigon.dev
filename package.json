@@ -13,6 +13,8 @@
     "@chakra-ui/theme-tools": "^1.1.7",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@fontsource/iosevka": "^4.5.4",
+    "@fontsource/roboto-mono": "^4.5.8",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.6",
     "@netlify/functions": "^0.7.2",
@@ -66,7 +68,6 @@
     "react-use": "^17.2.4",
     "rehype-autolink-headings": "^5.1.0",
     "rehype-slug": "^4.0.1",
-    "typeface-jetbrains-mono": "^2.0.0",
     "typeface-sriracha": "^1.1.13"
   },
   "devDependencies": {
