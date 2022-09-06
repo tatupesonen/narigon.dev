@@ -13,6 +13,7 @@ import { forwardRef } from "@chakra-ui/system"
 import { Hr } from "./Layout"
 import { m } from "framer-motion"
 import { useIsSafari } from "../hooks/is-safari"
+import { ThemeProvider } from "../data/providers"
 
 const MotionFlex = m(Flex)
 
@@ -21,11 +22,14 @@ const Bio = React.memo(
     const data = useStaticQuery(staticQuery)
     const { isSafari } = useIsSafari()
 
+		const { theme } = React.useContext(ThemeProvider)
+
     const twitter = data.site.siteMetadata.social.twitter
     const image = (
       <Flex
         borderRadius="md"
         overflow="hidden"
+				{...(theme === "light" ? {boxShadow: "2xl"} : {})}
         borderColor="brandSecondary"
         width="min-content"
         mb={2}
@@ -40,7 +44,7 @@ const Bio = React.memo(
       <>
         <Stack lineHeight="1.7" spacing={4} ref={ref} {...props}>
           {image}
-          <Heading fontWeight="black" fontSize="3xl" color="text.100">
+          <Heading fontWeight="black" mb={2} fontSize="3xl" color="text.100">
             Hi, I’m narigon.
           </Heading>
           <Stack spacing={4} fontSize="16px">

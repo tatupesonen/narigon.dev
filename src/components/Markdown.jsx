@@ -1,8 +1,8 @@
 import React, { useContext, useRef } from "react"
 import Prism from "prism-react-renderer/prism"
 import Highlight, { defaultProps } from "prism-react-renderer"
-import Theme from "prism-react-renderer/themes/vsDark"
-import ThemeLight from "prism-react-renderer/themes/github"
+import Theme from "prism-react-renderer/themes/nightOwl"
+import ThemeLight from "prism-react-renderer/themes/nightOwlLight"
 import rangeParser from "parse-numeric-range"
 import { maxWidth } from "../shared"
 import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/layout"
@@ -18,6 +18,7 @@ import go from "@assets/tech/go.png"
 import rust from "@assets/tech/rust.png"
 import shell from "@assets/tech/shell.png"
 import elixir from "@assets/tech/elixir.png"
+import erlang from "@assets/tech/erlang.svg"
 import { SkeletonCircle, useBreakpointValue } from "@chakra-ui/react"
 import { transition } from "../data/theme"
 import { Toastable } from "./Popup"
@@ -46,11 +47,11 @@ const languageMappings = {
   sh: {
     className: "bg-blue-600 text-blue-200",
     name: "Shell",
-		image: shell,
+    image: shell,
   },
-	bash: {
+  bash: {
     className: "bg-blue-600 text-blue-200",
-	},
+  },
   hs: {
     className: "bg-purple-800 text-purple-300",
     name: "Haskell",
@@ -65,9 +66,13 @@ const languageMappings = {
     image: rust,
   },
   elixir: {
-    className: "bg-yellow-700 text-yellow-100",
+    className: "bg-purple-800 text-purple-300",
     name: "Elixir",
     image: elixir,
+  },
+  erlang: {
+    name: "Erlang",
+    image: erlang,
   },
 }
 
@@ -291,9 +296,11 @@ export const DiscordEmbed = forwardRef((props, ref) => {
         >
           {top}
         </Text>
-        {title && <Heading fontWeight="medium" as="h2" fontSize="md" mb={2}>
-          {title}
-        </Heading>}
+        {title && (
+          <Heading fontWeight="medium" as="h2" fontSize="md" mb={2}>
+            {title}
+          </Heading>
+        )}
         <Text fontWeight="medium" fontSize="md" mb={2}>
           {content}
         </Text>
@@ -470,6 +477,7 @@ function Code({ children, className, metastring }) {
           <Text
             as="pre"
             py={2}
+						background="bgBrand"
             transition={transition}
             borderWidth={["1px"]}
             wordBreak="break-all"
@@ -653,3 +661,21 @@ export const Caption = forwardRef((props, ref) => {
     </Box>
   )
 })
+
+export const YoutubeVideoEmbed = forwardRef(
+  ({ children, videoUrl, ...rest }, ref) => (
+    <Box
+      as="iframe"
+      mb={6}
+      borderRadius="md"
+      width="100%"
+      height="405px"
+      src={`https://www.youtube-nocookie.com/embed/${videoUrl}`}
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      {...rest}
+    />
+  )
+)
