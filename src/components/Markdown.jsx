@@ -19,7 +19,12 @@ import rust from "@assets/tech/rust.png"
 import shell from "@assets/tech/shell.png"
 import elixir from "@assets/tech/elixir.png"
 import erlang from "@assets/tech/erlang.svg"
-import { SkeletonCircle, useBreakpointValue } from "@chakra-ui/react"
+import {
+  SkeletonCircle,
+  Spinner,
+  useBreakpointValue,
+  Skeleton,
+} from "@chakra-ui/react"
 import { transition } from "../data/theme"
 import { Toastable } from "./Popup"
 import { VStack } from "@chakra-ui/layout"
@@ -406,6 +411,35 @@ const calculateLinesToHighlight = meta => {
   }
 }
 
+export const createId = () => {
+  return "id" + Math.random().toString(16).slice(2)
+}
+
+export function RustPlayground({
+  code,
+  height = "800px",
+  mode = "debug",
+  version = "stable",
+  edition = "2021",
+}) {
+  const [loaded, setLoaded] = React.useState(false)
+  const [id, setId] = React.useState(createId())
+
+  const encoded = encodeURIComponent(code)
+  const uriStart = `https://play.rust-lang.org/?version=${version}&mode=${mode}&edition=${edition}&code=`
+  const uri = `${uriStart}${encoded}`
+  return (
+    <Skeleton isLoaded={loaded}>
+      <iframe
+        id={id}
+        onLoad={() => setLoaded(true)}
+        src={uri}
+        style={{ width: "100%", height }}
+      ></iframe>
+    </Skeleton>
+  )
+}
+
 function Code({ children, className, metastring }) {
   const shouldDisplayLineNumbers = useBreakpointValue([false, false, true])
   // basically I want to be able to declare objects here without adding quotes to keys
@@ -477,7 +511,7 @@ function Code({ children, className, metastring }) {
           <Text
             as="pre"
             py={2}
-						background="bgBrand"
+            background="bgBrand"
             transition={transition}
             borderWidth={["1px"]}
             wordBreak="break-all"
