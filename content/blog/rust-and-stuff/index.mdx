@@ -1,0 +1,42 @@
+---
+title: "🦀 Rust and stuff"
+date: "2022-10-11"
+description: There's a new hot king in town
+tags:
+  - Rust
+  - Fun
+# imageTop:
+#   objectPosition: 30%
+#   src: ./bg.jpg
+draft: false
+---
+
+import { T, RustPlayground } from "../../../src/components/Markdown"
+
+<Caption>
+  <div>Welcome to safety and parallelism</div>
+  <Lol />
+</Caption>
+
+import { Link } from "@chakra-ui/react"
+
+export const rustCode = `#[derive(Debug)]
+enum Age {
+    Minor(u8),
+    Adult(u8)
+}
+impl From<u8> for Age {
+    fn from(num: u8) -> Self {
+        match num {
+            num if num >= 18 => Age::Adult(num),
+            _ => Age::Minor(num)
+        }
+    }
+}
+fn main() {
+    let age_type: Age = 17.into();
+    println!("{:?}", age_type);
+}
+`
+
+<RustPlayground code={rustCode} height="500px" />

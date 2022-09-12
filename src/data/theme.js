@@ -66,8 +66,8 @@ const baseColors = {
 		dark: "#232735",
 	},
 	bgBrand: {
-		light: "#f5e5ec",
-		dark: "hsl(333deg 52% 14%)",
+		light: "hsl(230deg 30% 92%)",
+		dark: "hsl(230deg 30% 9%)",
 	},
 	borderSubtle: {
 		dark: "#1e2131",
@@ -84,8 +84,8 @@ const baseColors = {
 		},
 	},
 	brandSecondary: {
-		dark: "#62daff",
-		light: "#256bc1",
+		dark: "#8a7aff",
+		light: "#3725c2",
 	},
 }
 

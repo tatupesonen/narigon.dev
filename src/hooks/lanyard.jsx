@@ -22,7 +22,6 @@ export function useLanyard(id) {
       activities => activities.name === "Visual Studio Code"
     )
     const data = { ...incoming.d, vscodeStatus };
-    console.log(data);
     setData(data)
   }, [])
   useEffect(() => {
