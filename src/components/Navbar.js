@@ -183,8 +183,7 @@ export default function Navbar() {
             )}
           </Flex>
         )}
-        {/* VSCode status https://cdn.discordapp.com/app-assets/${lanyard.vscodeStatus.application_id}/{lanyard.vscodeStatus.assets.small_image}.png */}
-        {lanyard.vscodeStatus && <Divider borderColor="text.500" orientation="vertical" />}
+        {lanyard.programmingStatus && <Divider borderColor="text.500" orientation="vertical" />}
         <Flex justify="flex-start" align="center">
           <Link to="/" h="max-content">
             <Flex
@@ -197,27 +196,27 @@ export default function Navbar() {
                 h={["30px", "32px", "45px"]}
                 justifyContent="center"
               >
-                {lanyard.vscodeStatus && (
+                {lanyard.programmingStatus && (
                   <LazyImage
-                    key={`https://cdn.discordapp.com/app-assets/${lanyard.vscodeStatus.application_id}/${lanyard.vscodeStatus.assets.large_image}.png`}
-                    src={`https://cdn.discordapp.com/app-assets/${lanyard.vscodeStatus.application_id}/${lanyard.vscodeStatus.assets.large_image}.png`}
+                    key={`https://cdn.discordapp.com/app-assets/${lanyard.programmingStatus.application_id}/${lanyard.programmingStatus.assets.large_image}.png`}
+                    src={`https://cdn.discordapp.com/app-assets/${lanyard.programmingStatus.application_id}/${lanyard.programmingStatus.assets.large_image}.png`}
                   />
                 )}{" "}
               </Flex>
             </Flex>
           </Link>
-          {lanyard?.vscodeStatus && (
+          {lanyard?.programmingStatus && (
             <Flex
               justify="center"
               h="full"
               direction="column"
               marginInlineStart={2}
             >
-              {lanyard.vscodeStatus && (
+              {lanyard.programmingStatus && (
                 <Flex align="center" color="text.100">
                   <RiCodeBoxFill />
                   <Text fontSize="xs" mx={2}>
-                    {lanyard.vscodeStatus.details}
+                    {lanyard.programmingStatus.details}
                   </Text>
                 </Flex>
               )}
@@ -228,7 +227,7 @@ export default function Navbar() {
                   align="center"
                   color="text.300"
                 >
-                  {lanyard?.vscodeStatus ? (
+                  {lanyard?.programmingStatus ? (
                     <>
                       <RiGitRepositoryFill />
                         <Text
@@ -239,7 +238,7 @@ export default function Navbar() {
                           textOverflow="ellipsis"
                           overflow="hidden"
                         >
-                          {lanyard.vscodeStatus.state}
+                          {lanyard.programmingStatus.state}
                         </Text>
                     </>
                   ) : (
