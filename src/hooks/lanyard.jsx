@@ -18,11 +18,10 @@ export function useLanyard(id) {
       }, 30000)
       return
     }
-    const vscodeStatus = incoming.d.activities.find(
-      activities => activities.name === "Visual Studio Code"
+    const programmingStatus = incoming.d.activities.find(
+      activities => activities.name === "Visual Studio Code" || activities.name === "Neovim"
     )
-    const data = { ...incoming.d, vscodeStatus };
-    console.log(data);
+    const data = { ...incoming.d, programmingStatus };
     setData(data)
   }, [])
   useEffect(() => {
