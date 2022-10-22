@@ -19,6 +19,7 @@ import rust from "@assets/tech/rust.png"
 import shell from "@assets/tech/shell.png"
 import elixir from "@assets/tech/elixir.png"
 import erlang from "@assets/tech/erlang.svg"
+import { BsPlayFill } from "react-icons/bs"
 import {
   SkeletonCircle,
   Spinner,
@@ -443,16 +444,6 @@ export function RustPlayground({
   )
 }
 
-// export interface RustExecutionRequest {
-//     channel:   string;
-//     mode:      string;
-//     edition:   string;
-//     crateType: string;
-//     tests:     boolean;
-//     code:      string;
-//     backtrace: boolean;
-// }
-
 const defaultCompilerOpts = {
   channel: "stable",
   mode: "debug",
@@ -463,7 +454,7 @@ const defaultCompilerOpts = {
 }
 
 function Code({ children, className, metastring }) {
-  const [stacktrace, setStacktrace] = React.useState("")
+  const [error, setError] = React.useState("")
   const [output, setOutput] = React.useState("")
   const [success, setSuccess] = React.useState(false)
   const [executing, setExecuting] = React.useState(false)
@@ -498,8 +489,11 @@ function Code({ children, className, metastring }) {
       }),
     })
     const data = await resp.json()
+    console.log(data)
     setExecuting(false)
+    setSuccess(data.success)
     setOutput(data.stdout)
+    setError(data.stderr)
   }
 
   return (
@@ -547,8 +541,9 @@ function Code({ children, className, metastring }) {
                   colorScheme="green"
                   isLoading={executing}
                   onClick={execute}
+                  rightIcon={<BsPlayFill />}
                 >
-                  Execute
+                  Run
                 </Button>
               )}
             </Flex>
@@ -620,23 +615,31 @@ function Code({ children, className, metastring }) {
           </Text>
         )}
       </Highlight>
-      {(executing || output.length > 0) && (
-        <Text
-          as="pre"
-          py={2}
-          mt={2}
-          background="bgBrand"
-          transition={transition}
-          borderWidth={["1px"]}
-          wordBreak="break-all"
-          borderColor="borderSubtle"
-          position="relative"
-          overflowX="auto"
-          p={2}
-          fontSize={["sm", null, "md"]}
-        >
-          <SkeletonText isLoaded={!executing}>{output}</SkeletonText>
-        </Text>
+      {(executing || output.length > 0 || error.length > 0) && (
+        <Box mt={2}>
+          <Heading mb={1} size="xs">
+            Execution output:
+          </Heading>
+          <Text
+            as="pre"
+            background="bgBrand"
+            transition={transition}
+            borderWidth={["1px"]}
+            wordBreak="break-all"
+            borderColor="borderSubtle"
+            position="relative"
+            overflowX="auto"
+            p={2}
+            fontSize={["sm", null, "md"]}
+          >
+            <SkeletonText isLoaded={!executing}>
+              <Box as="pre" color={success ? "inherit" : "red"}>
+                {error}
+              </Box>
+              {output}
+            </SkeletonText>
+          </Text>
+        </Box>
       )}
     </Flex>
   )
