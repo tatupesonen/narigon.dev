@@ -24,11 +24,14 @@ import {
   Spinner,
   useBreakpointValue,
   Skeleton,
+  Button,
+  SkeletonText,
 } from "@chakra-ui/react"
 import { transition } from "../data/theme"
 import { Toastable } from "./Popup"
 import { VStack } from "@chakra-ui/layout"
 import { ThemeProvider } from "../data/providers"
+import { method } from "lodash"
 export * from "./memes/Chatbox"
 export * from "./posts"
 ;(typeof global !== "undefined" ? global : window).Prism = Prism
@@ -440,7 +443,30 @@ export function RustPlayground({
   )
 }
 
+// export interface RustExecutionRequest {
+//     channel:   string;
+//     mode:      string;
+//     edition:   string;
+//     crateType: string;
+//     tests:     boolean;
+//     code:      string;
+//     backtrace: boolean;
+// }
+
+const defaultCompilerOpts = {
+  channel: "stable",
+  mode: "debug",
+  crateType: "bin",
+  edition: "2021",
+  tests: false,
+  code: "",
+}
+
 function Code({ children, className, metastring }) {
+  const [stacktrace, setStacktrace] = React.useState("")
+  const [output, setOutput] = React.useState("")
+  const [success, setSuccess] = React.useState(false)
+  const [executing, setExecuting] = React.useState(false)
   const shouldDisplayLineNumbers = useBreakpointValue([false, false, true])
   // basically I want to be able to declare objects here without adding quotes to keys
   // which json5 allows me to do but json5 has a really big bundle size so I don't want to use it
@@ -456,7 +482,25 @@ function Code({ children, className, metastring }) {
   const highlighterClass = languageMappings[language]
   const isPreTitle = extraProps.title?.startsWith("/")
   const TitleType = isPreTitle ? "pre" : "div"
+  const executable = ["rust"].includes(language)
   const displayTop = extraProps.title || (highlighterClass && extraProps.lang)
+
+  const execute = async () => {
+    setExecuting(true)
+    const resp = await fetch("https://play.rust-lang.org/execute", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ...defaultCompilerOpts,
+        code: children,
+      }),
+    })
+    const data = await resp.json()
+    setExecuting(false)
+    setOutput(data.stdout)
+  }
 
   return (
     <Flex flexFlow="column" mb={6}>
@@ -469,7 +513,6 @@ function Code({ children, className, metastring }) {
               mb={0}
               // background="bgSecondary"
               fontSize={["xs", null, "sm"]}
-              borderTopRadius="sm"
               borderTopRadius="2px"
               color="text.300"
             >
@@ -496,6 +539,17 @@ function Code({ children, className, metastring }) {
                   display="block"
                   ml={2}
                 />
+              )}
+              {executable && (
+                <Button
+                  ml={2}
+                  size="sm"
+                  colorScheme="green"
+                  isLoading={executing}
+                  onClick={execute}
+                >
+                  Execute
+                </Button>
               )}
             </Flex>
           )}
@@ -566,6 +620,24 @@ function Code({ children, className, metastring }) {
           </Text>
         )}
       </Highlight>
+      {(executing || output.length > 0) && (
+        <Text
+          as="pre"
+          py={2}
+          mt={2}
+          background="bgBrand"
+          transition={transition}
+          borderWidth={["1px"]}
+          wordBreak="break-all"
+          borderColor="borderSubtle"
+          position="relative"
+          overflowX="auto"
+          p={2}
+          fontSize={["sm", null, "md"]}
+        >
+          <SkeletonText isLoaded={!executing}>{output}</SkeletonText>
+        </Text>
+      )}
     </Flex>
   )
 }

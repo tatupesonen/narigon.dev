@@ -20,7 +20,8 @@ import { T, RustPlayground } from "../../../src/components/Markdown"
 
 import { Link } from "@chakra-ui/react"
 
-export const rustCode = `#[derive(Debug)]
+```rust
+#[derive(Debug)]
 enum Age {
     Minor(u8),
     Adult(u8)
@@ -37,6 +38,4 @@ fn main() {
     let age_type: Age = 17.into();
     println!("{:?}", age_type);
 }
-`
-
-<RustPlayground code={rustCode} height="500px" />
+```
