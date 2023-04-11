@@ -1,0 +1,77 @@
+---
+title: "🐋 Kubernetes interpolation"
+date: "2023-04-12"
+description: Neat Kubernetes interpolation trick
+tags:
+  - Kubernetes
+  - Secrets
+imageTop:
+  objectPosition: 30%
+  src: ./kube.jpg
+draft: false
+---
+
+import { T } from "../../../src/components/Markdown"
+
+Here's a cool little interpolation trick I found on the internet while trying to figure out how to build a new environment variable from existing ones with Kubernetes:
+
+Let's say you have a `ConfigMap`:
+```yaml {title: "configmap.yaml"}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: some-configmap
+data:
+  DB_NAME: "app-db"
+  DB_PORT: "5432"
+  DB_HOST: "app-db-svc"
+```
+And a secret because we want to keep things safe:
+```yaml {title: "secret.yaml"}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: some-secret
+data:
+  DB_PASSWORD: aHVudGVyMg== # hunter2
+  DB_USER: YXBwLXVzZXI= # app-user
+type: Opaque
+```
+Now you can render them 
+```yaml {title: "deployment.yaml", h: "31,32"}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sick-app
+  name: sick-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sick-app
+  template:
+    metadata:
+      labels:
+        app: sick-app
+    spec:
+      containers:
+        - image: your-registry.io/your-repo/sick-app
+          name: app
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: some-configmap
+            - secretRef:
+                name: some-secret
+          env:
+            # Let's say you're using Prisma
+            # You want a DATABASE_URL like this:
+            # postgresql://app-user:hunter2@app-db-svc:5432/app-db
+            - name: DATABASE_URL
+              value: postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)
+          resources: {}
+```
+
+Now you don't have to define a new secret!

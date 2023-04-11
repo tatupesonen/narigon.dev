@@ -1,5 +1,5 @@
 module.exports = {
-  maxWidth: "49rem",
+  maxWidth: "75rem",
   postPreviewDimensions: {
     width: 1150,
     height: 600,

@@ -18,6 +18,7 @@ import go from "@assets/tech/go.png"
 import rust from "@assets/tech/rust.png"
 import shell from "@assets/tech/shell.png"
 import elixir from "@assets/tech/elixir.png"
+import yaml from "@assets/tech/yaml.png"
 import { SkeletonCircle, useBreakpointValue } from "@chakra-ui/react"
 import { transition } from "../data/theme"
 import { Toastable } from "./Popup"
@@ -68,6 +69,10 @@ const languageMappings = {
     className: "bg-yellow-700 text-yellow-100",
     name: "Elixir",
     image: elixir,
+  },
+  yaml: {
+    name: "yaml",
+    image: yaml,
   },
 }
 
