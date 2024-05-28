@@ -45,7 +45,7 @@ const Bio = React.memo(
           </Heading>
           <Stack spacing={4} fontSize="16px">
             <Text>
-              I'm 25 years old and I'm trying to get better at software
+              I'm 27 years old and I'm trying to get better at software
               development.
             </Text>
             <Text>
