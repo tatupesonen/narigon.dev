@@ -30,6 +30,20 @@
     });
   }
 
+  // ----- Home: move the avatar into the navbar when the hero scrolls away -----
+  var heroAvatar = document.querySelector(".hero > img");
+  if (heroAvatar && document.querySelector(".home-nav-avatar")) {
+    new IntersectionObserver(
+      function (entries) {
+        document.documentElement.classList.toggle(
+          "avatar-in-nav",
+          !entries[0].isIntersecting
+        );
+      },
+      { rootMargin: "-80px 0px 0px 0px" }
+    ).observe(heroAvatar);
+  }
+
   // ----- Discord presence via the Lanyard websocket (like the old site) -----
   // Subscribes to the configured Discord ID and keeps the line live:
   // Spotify > playing activity > bare status. Hidden until real data arrives.
@@ -123,7 +137,21 @@
     offline: "offline",
   };
 
-  var render = function (d) {
+  // Temporarily disable an element's transitions across one style flush, so
+  // cache-driven renders on navigation don't replay the entrance animation.
+  var withoutTransition = function (els) {
+    els.forEach(function (el) { el.style.transition = "none"; });
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        els.forEach(function (el) { el.style.transition = ""; });
+      });
+    });
+  };
+
+  var render = function (d, instant) {
+    if (instant && card) {
+      withoutTransition([card].concat(Array.prototype.slice.call(pres)));
+    }
     var s = d.discord_status || "offline";
     var game = (d.activities || []).find(function (x) { return x.type === 0; });
     if (d.spotify) {
@@ -150,7 +178,7 @@
   // Render the last known presence immediately so navigation doesn't pop.
   try {
     var cached = JSON.parse(sessionStorage.getItem("narigon-presence"));
-    if (cached) render(cached);
+    if (cached) render(cached, true);
   } catch (e) { /* no cache */ }
 
   var heartbeat = null;

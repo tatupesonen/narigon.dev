@@ -103,7 +103,12 @@ body {
 .wrap {
   max-width: 640px;
   margin: 0 auto;
-  padding: 36px 24px 0;
+  padding: 0 24px;
+}
+
+html {
+  /* keep in-page anchors clear of the sticky nav */
+  scroll-padding-top: 96px;
 }
 
 a { color: var(--accent); }
@@ -113,9 +118,18 @@ a:hover { color: var(--ink); }
 
 /* ---------- Nav ---------- */
 nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: 20px;
+  padding: 32px 24px 12px;
+  margin: 0 -24px;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
 }
 .brand {
   display: flex;
@@ -131,6 +145,27 @@ nav {
   object-fit: cover;
   background: var(--line);
   view-transition-name: avatar;
+}
+/* On the home page the nav avatar appears once the hero avatar scrolls
+   under the sticky nav; the view-transition name follows the visible one. */
+.brand img.home-nav-avatar {
+  width: 0;
+  margin-right: -11px; /* cancel the brand gap while hidden */
+  opacity: 0;
+  transform: scale(0.4);
+  view-transition-name: none;
+  transition: width 0.25s ease, margin-right 0.25s ease, opacity 0.25s ease,
+    transform 0.25s ease;
+}
+html.avatar-in-nav .brand img.home-nav-avatar {
+  width: 30px;
+  margin-right: 0;
+  opacity: 1;
+  transform: none;
+  view-transition-name: avatar;
+}
+html.avatar-in-nav .hero > img {
+  view-transition-name: none;
 }
 .brand span {
   font-family: "Newsreader", serif;
@@ -730,8 +765,8 @@ footer a:hover { color: var(--accent); }
 
 /* ---------- Mobile ---------- */
 @media (max-width: 600px) {
-  .wrap { padding: 28px 18px 0; }
-  nav { gap: 12px; flex-wrap: wrap; }
+  .wrap { padding: 0 18px; }
+  nav { gap: 12px; flex-wrap: wrap; padding: 22px 18px 10px; margin: 0 -18px; }
   .nav-links { gap: 12px; font-size: 13px; }
   /* now-playing card drops to its own row under the nav */
   .activity-card { order: 99; flex-basis: 100%; }

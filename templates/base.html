@@ -55,6 +55,8 @@
       <a class="brand" href="/">
         {%- if current_path is defined and current_path != "/" %}
         <img src="/narigon.png" alt="narigon avatar" width="30" height="30">
+        {%- else %}
+        <img class="home-nav-avatar" src="/narigon.png" alt="" width="30" height="30">
         {%- endif %}
         <span>narigon</span>
       </a>
