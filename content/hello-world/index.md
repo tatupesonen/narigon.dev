@@ -1,5 +1,5 @@
 +++
-title = "👋 Hello world"
+title = "Hello world"
 description = "A Finnish introvert tries out blogging"
 date = 2021-11-17
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Blog · {{ config.title }}{% endblock title %}
+{% block description %}{{ section.description }}{% endblock description %}
+{% block canonical %}{{ section.permalink | safe }}{% endblock canonical %}
+
+{% block content %}
+{% set blog = get_section(path="_index.md") %}
+<div class="page-head">
+  <h1>Blog</h1>
+  <p class="sub">Everything I’ve written, newest first.</p>
+</div>
+<div class="blog-list">
+  {% for post in blog.pages %}
+  <a class="blog-row" href="{{ post.permalink | safe }}" data-post-link>
+    <div class="meta">{{ post.date | date(format="%B %-d, %Y") }} · {% if post.extra.read %}{{ post.extra.read }}{% else %}{{ post.reading_time }} min{% endif %} read</div>
+    <div class="title">{{ post.title }}</div>
+    <div class="desc">{{ post.description }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock content %}

@@ -5,6 +5,7 @@ date = 2021-12-28
 
 [extra]
 tags = ["Scammed"]
+read = "13 min"
 +++
 
 ![](scammed.jpg)

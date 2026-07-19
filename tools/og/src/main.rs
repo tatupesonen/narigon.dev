@@ -11,11 +11,11 @@ use std::sync::Arc;
 const WIDTH: u32 = 1200;
 const HEIGHT: u32 = 630;
 
-const BG: &str = "#131317";
-const BORDER: &str = "#2a2a31";
-const FG: &str = "#e6e6ea";
-const MUTED: &str = "#94949e";
-const ACCENT: &str = "#fc8181";
+const BG: &str = "#1a1712";
+const BORDER: &str = "#2e2a20";
+const FG: &str = "#ece5d4";
+const MUTED: &str = "#a1977f";
+const ACCENT: &str = "#dfa050";
 
 struct Card {
     title: String,
@@ -55,12 +55,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Some(toml::Value::String(s)) => s.clone(),
             _ => String::new(),
         };
-        let minutes = (body.split_whitespace().count() as f64 / 200.0).ceil().max(1.0);
+        // Honor an [extra] read = "13 min" override, matching the templates.
+        let read = meta
+            .get("extra")
+            .and_then(|e| e.get("read"))
+            .and_then(|v| v.as_str())
+            .map(str::to_string)
+            .unwrap_or_else(|| {
+                let minutes = (body.split_whitespace().count() as f64 / 200.0).ceil().max(1.0);
+                format!("{minutes} min")
+            });
 
         let card = Card {
             title: strip_emoji(title),
             description: description.to_string(),
-            footer: format!("{} · {} min read", pretty_date(&date), minutes),
+            footer: format!("{} · {} read", pretty_date(&date), read),
         };
         let out = dir.join("og.png");
         render(&card, &options, &out)?;

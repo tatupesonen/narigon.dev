@@ -3,42 +3,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+  <title>{% block title %}{{ config.title }} - {{ config.description }}{% endblock title %}</title>
   <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+  <meta name="author" content="{{ config.extra.author }}">
+  <meta name="theme-color" content="#faf7f0">
   <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/narigon.png">
+  <script>
+    (function () {
+      var t = localStorage.getItem("narigon-theme");
+      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <link rel="preload" href="/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/ibm-plex-sans-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ get_url(path='style.css') | safe }}">
   <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path='rss.xml') | safe }}">
-  <link rel="canonical" href="{% block canonical %}{{ config.base_url | safe }}{% endblock canonical %}">
+  <link rel="canonical" href="{% block canonical %}{{ config.base_url | safe }}/{% endblock canonical %}">
   {% block og %}
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ config.title }}">
-  <meta property="og:title" content="{{ config.title }}">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="{{ config.title }} - {{ config.description }}">
   <meta property="og:description" content="{{ config.description }}">
-  <meta property="og:url" content="{{ config.base_url | safe }}">
+  <meta property="og:url" content="{{ config.base_url | safe }}/">
   <meta property="og:image" content="{{ get_url(path='og-default.png') | safe }}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ config.title }}">
+  <meta name="twitter:title" content="{{ config.title }} - {{ config.description }}">
   <meta name="twitter:description" content="{{ config.description }}">
   <meta name="twitter:image" content="{{ get_url(path='og-default.png') | safe }}">
   {% endblock og %}
+  {% block jsonld %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ config.title }}",
+    "url": "{{ config.base_url | safe }}/",
+    "description": "{{ config.description }}",
+    "author": { "@type": "Person", "name": "{{ config.extra.author }}", "url": "{{ config.base_url | safe }}/" }
+  }
+  </script>
+  {% endblock jsonld %}
 </head>
 <body>
-  <header>
+  <div class="wrap">
     <nav>
-      <a href="/">narigon.dev</a>
-      <span>
-        <a href="{{ config.extra.github | safe }}">github</a>
-        <a href="/rss.xml">rss</a>
-      </span>
+      <a class="brand" href="/">
+        {%- if current_path is defined and current_path != "/" %}
+        <img src="/narigon.png" alt="narigon avatar" width="30" height="30">
+        {%- endif %}
+        <span>narigon</span>
+      </a>
+      {% if config.extra.show_presence and config.extra.discord_id %}
+      <div class="presence" data-discord-id="{{ config.extra.discord_id }}" data-status="offline" hidden>
+        <span class="dot"></span>
+        <span class="line"></span>
+      </div>
+      <a class="activity-card" id="activity-card" target="_blank" rel="external noopener" hidden>
+        <img class="art" alt="" hidden>
+        <span class="activity-text">
+          <span class="kicker">
+            <svg class="icon-spotify" viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.36-.66.47-1 .25-2.8-1.7-6.3-2.1-10.45-1.15-.4.1-.8-.15-.9-.55-.1-.4.15-.8.55-.9 4.5-1.03 8.4-.58 11.5 1.33.37.22.48.68.3 1.02zm1.47-3.26c-.27.44-.85.58-1.3.3-3.2-1.96-8.06-2.53-11.84-1.38-.5.15-1.02-.13-1.17-.62-.15-.5.13-1.02.62-1.17 4.32-1.31 9.68-.67 13.35 1.58.44.27.58.85.34 1.29zm.13-3.4C15.3 8.36 8.94 8.15 5.28 9.26c-.6.18-1.22-.16-1.4-.75-.18-.6.16-1.22.75-1.4 4.2-1.27 11.18-1.03 15.6 1.6.53.32.7 1 .38 1.53-.3.52-.98.7-1.5.38z"/></svg>
+            <svg class="icon-game" viewBox="0 0 24 24" fill="none" width="11" height="11"><rect x="2" y="7" width="20" height="11" rx="5.5" stroke="currentColor" stroke-width="1.8"/><path d="M7 10.5v4M5 12.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="11" r="1.2" fill="currentColor"/><circle cx="18.5" cy="13.5" r="1.2" fill="currentColor"/></svg>
+            <span class="kicker-text">Currently listening to</span>
+          </span>
+          <span class="song"></span>
+          <span class="progress" hidden>
+            <span class="bar"><span class="fill"></span></span>
+            <span class="ptime">0:00 / 0:00</span>
+          </span>
+        </span>
+      </a>
+      {% endif %}
+      <div class="spacer"></div>
+      <div class="nav-links">
+        <a href="/blog/"{% if current_path is defined and current_path == "/blog/" %} class="active"{% endif %}>Blog</a>
+        <a href="/rss.xml">RSS</a>
+        <button id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">☾</button>
+      </div>
     </nav>
-  </header>
-  <main>
-    {% block content %}{% endblock content %}
-  </main>
-  <footer>
-    <p>© {{ config.extra.author }} · <a href="{{ config.extra.repo | safe }}">view the site's code</a></p>
-  </footer>
+
+    <main>
+      {% block content %}{% endblock content %}
+    </main>
+
+    <footer>
+      <a href="{{ config.extra.github | safe }}">GitHub</a>
+      <a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a>
+      <a href="{{ config.extra.pgp_key | safe }}">PGP</a>
+      <a href="/rss.xml">RSS</a>
+    </footer>
+  </div>
+  <script src="{{ get_url(path='site.js') | safe }}" defer></script>
 </body>
 </html>

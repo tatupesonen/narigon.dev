@@ -1,25 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Hi, I'm narigon 👋</h1>
-<div class="bio">
-  {{ section.content | safe }}
+<div class="hero">
+  <img src="/narigon.png" alt="narigon avatar" width="72" height="72">
+  <div>
+    <h1>Hi, I’m narigon.</h1>
+    {{ section.content | safe }}
+  </div>
 </div>
-<ul class="links">
-  <li><a href="{{ config.extra.github | safe }}">GitHub</a></li>
-  <li><a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a></li>
-  <li><a href="{{ config.extra.pgp_key | safe }}">PGP key for email</a></li>
-  <li><a href="/rss.xml">RSS feed</a></li>
-</ul>
 
-<h2>{{ section.pages | length }} posts</h2>
-<ul class="posts">
+<div class="writing-head">
+  <h2>Writing</h2>
+  <span class="count">{{ section.pages | length }} posts</span>
+</div>
+<div class="post-list">
   {% for page in section.pages %}
-  <li>
-    <span class="post-date">{{ page.date | date(format="%Y-%m-%d") }}</span>
-    <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
-    <span class="post-desc">{{ page.description }}</span>
-  </li>
+  <a class="post-row" href="{{ page.permalink | safe }}" data-post-link>
+    <span class="title">{{ page.title }}</span>
+    <span class="leader"></span>
+    <span class="when">{{ page.date | date(format="%b %Y") }}</span>
+  </a>
   {% endfor %}
-</ul>
+</div>
+
+<h2 class="section-head">Interests</h2>
+<div class="chips">
+  <span class="chip">Software development</span>
+  <span class="chip">Photography</span>
+  <span class="chip">Mechanical keyboards</span>
+  <span class="chip">Kubernetes</span>
+</div>
+
+<h2 class="section-head">Contact</h2>
+<div class="contact-card">
+  <div class="contact-row">
+    <span class="label">email</span>
+    <a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a>
+  </div>
+  <div class="contact-row">
+    <span class="label">pgp</span>
+    <a class="fingerprint" href="{{ config.extra.pgp_key | safe }}">8D40 9FF7 767D 83F8 1FC2 D5F5 A4C5 E8FD D174 6806</a>
+  </div>
+  <div class="contact-row">
+    <span class="label">github</span>
+    <a href="{{ config.extra.github | safe }}">github.com/tatupesonen</a>
+  </div>
+</div>
 {% endblock content %}

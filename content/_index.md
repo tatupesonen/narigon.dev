@@ -4,9 +4,6 @@ template = "index.html"
 page_template = "page.html"
 +++
 
-Hi, I'm **narigon**. I'm always trying to get better at software development.
+I’m a software developer who’s always trying to get better at the craft. This blog is my outlet for development topics and hobby stuff - photography and mechanical keyboards included.
 
-This blog is my outlet where I can talk about various development related
-topics as well as some hobby related stuff. I also enjoy photography and
-mechanical keyboards. I can guarantee you will be finding more about those
-in my blog.
+Outside of work you’ll find me behind a camera or elbow-deep in a mechanical keyboard build. I can guarantee you’ll be finding more about those here.

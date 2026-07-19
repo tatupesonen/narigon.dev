@@ -11,8 +11,7 @@ feed_filenames = ["rss.xml"]
 external_links_target_blank = true
 
 [markdown.highlighting]
-light_theme = "one-light"
-dark_theme = "one-dark-pro"
+theme = "one-dark-pro"
 
 [extra]
 author = "Tatu Pesonen"
@@ -20,3 +19,7 @@ email = "tatu@narigon.dev"
 github = "https://github.com/tatupesonen"
 repo = "https://github.com/tatupesonen/narigon.dev"
 pgp_key = "/publickey.tatu@narigon.dev-8d409ff7767d83f81fc2d5f5a4c5e8fdd1746806.asc"
+# Discord user ID for the Lanyard presence widget (https://github.com/Phineas/lanyard).
+# Leave empty to hide the presence line.
+discord_id = "121777389012385796"
+show_presence = true

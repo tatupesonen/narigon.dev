@@ -1,5 +1,5 @@
 +++
-title = "🐋 Kubernetes interpolation"
+title = "Kubernetes interpolation"
 description = "Neat Kubernetes interpolation trick"
 date = 2023-04-12
 

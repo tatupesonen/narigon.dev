@@ -1,10 +1,11 @@
 +++
-title = "⌨️ Basketweave-S"
+title = "Basketweave-S"
 description = "Assembling a cheap DIY Alice-like keyboard"
 date = 2022-01-07
 
 [extra]
 tags = ["Keyboards", "DIY", "QMK"]
+read = "9 min"
 +++
 
 ![Basketweave-S](side.jpg)
