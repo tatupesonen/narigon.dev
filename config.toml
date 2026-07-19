@@ -18,7 +18,7 @@ author = "Tatu Pesonen"
 email = "tatu@narigon.dev"
 github = "https://github.com/tatupesonen"
 repo = "https://github.com/tatupesonen/narigon.dev"
-pgp_key = "/publickey.tatu@narigon.dev-8d409ff7767d83f81fc2d5f5a4c5e8fdd1746806.asc"
+pgp_key = "/publickey.tatu@narigon.dev-74ff67e5e67b5dbe2839fb73c8c736667dbb9128.asc"
 # Discord user ID for the Lanyard presence widget (https://github.com/Phineas/lanyard).
 # Leave empty to hide the presence line.
 discord_id = "121777389012385796"
