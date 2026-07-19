@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} · {{ config.title }}{% endblock title %}
+{% block description %}{{ page.description }}{% endblock description %}
+{% block canonical %}{{ page.permalink | safe }}{% endblock canonical %}
+
+{% block og %}
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.description }}">
+  <meta property="og:url" content="{{ page.permalink | safe }}">
+  <meta property="og:image" content="{{ page.permalink | safe }}og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="article:published_time" content="{{ page.date }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta name="twitter:description" content="{{ page.description }}">
+  <meta name="twitter:image" content="{{ page.permalink | safe }}og.png">
+{% endblock og %}
+
+{% block content %}
+<article>
+  <h1>{{ page.title }}</h1>
+  <p class="post-meta">
+    {{ page.date | date(format="%B %d, %Y") }} · {{ page.reading_time }} min read
+    {%- if page.extra.tags %} · {% for tag in page.extra.tags %}<span class="tag">{{ tag }}</span>{% endfor %}{% endif %}
+  </p>
+  {{ page.content | safe }}
+</article>
+<p class="back"><a href="/">← back home</a></p>
+{% endblock content %}

@@ -1,0 +1,127 @@
+{
+  "chunks": [
+    { "who": "me", "msgs": [{ "t": "Hello, are you this person? <link to profile>" }] },
+    { "who": "them", "msgs": [{ "t": "no", "hl": true }] },
+    { "who": "me", "msgs": [{ "t": "Gotcha, thanks" }] },
+    { "who": "them", "msgs": [
+      { "t": "ou man" },
+      { "t": "srryy" },
+      { "t": "yes, thats me", "hl": true },
+      { "t": "but i dont speak english" },
+      { "t": "its me" }
+    ] },
+    { "who": "me", "msgs": [
+      { "t": "Okay" },
+      { "t": "What language do you speak?" }
+    ] },
+    { "who": "them", "msgs": [{ "t": "spanish" }] },
+    { "who": "me", "msgs": [
+      { "t": "Okay, so... \"narigon\" is my online identity and I was wondering if you would be kind enough to allow me to use that name in my <redacted> profile." },
+      { "t": "I understand if you want to keep it, though :)", "o": "Entiendo si quieres quedártelo, aunque :)" },
+      { "t": "For the record, here is my blog website", "o": "Para que conste, aquí está el sitio web de mi blog." },
+      { "t": "http://narigon.dev" }
+    ] },
+    { "who": "them", "msgs": [
+      { "t": "Come on, no problem, but I need a payment.", "o": "Dale, no hay problema, pero necesito una paga, ya que seria dejar un lugar que consegui desde mi antiguedad" }
+    ] },
+    { "who": "me", "msgs": [
+      { "t": "Okay, how much do you want for it?", "o": "está bien, ¿cuánto quieres por él?" }
+    ] },
+    { "who": "them", "msgs": [
+      { "t": "30 dollars so I can buy some medicine", "hl": true, "o": "Oh this seems fair. I'll get my nickname and the dude gets their medicine :)" }
+    ] },
+    { "who": "me", "msgs": [
+      { "t": "Sounds good. Where do you want me to make the payment?", "o": "Suena bien. ¿Dónde quieres que haga el pago?" }
+    ] },
+    { "who": "them", "msgs": [{ "t": "You got Metamask?", "o": "tenes metamask?" }] },
+    { "who": "me", "msgs": [{ "t": "Ethereum is fine 👌" }] },
+    { "who": "them", "msgs": [{ "t": "Yes", "o": "si" }] },
+    { "who": "me", "msgs": [{ "t": "Give me your ETH address" }] },
+    { "who": "them", "msgs": [{ "t": "0xc155..." }] },
+    { "who": "me", "msgs": [{ "t": "<link on etherscan blockchain explorer to the transaction>" }] },
+    { "who": "them", "msgs": [
+      { "t": "I did not get anything, yes, there I am changing it, I am waiting for the confirmation", "o": "No me llego nada, si, ahi lo estoy cambiando, estoy esperando la confirmacion" },
+      { "t": "In what currency did you send it to me, nothing comes", "o": "En que moneda me lo mandaste, no llega nada" }
+    ] },
+    { "who": "me", "msgs": [
+      { "t": "Ethereum. It's still confirming. You can see the transaction on Etherscan.", "o": "ethereum. Todavía lo está confirmando. Puedes ver la transacción en Etherscan" },
+      { "t": "It's confirmed now :)" }
+    ] },
+    { "who": "them", "msgs": [{ "t": "yes!", "hl": true }] },
+    { "who": "me", "msgs": [
+      { "t": "Hello?" },
+      { "t": "Are you serious?", "o": "¿Hablas en serio?" }
+    ] },
+    { "who": "them", "msgs": [{ "t": "wait a second" }] },
+    { "who": "me", "msgs": [
+      { "t": "Okay, tell me if you need help changing it.", "o": "OK, dime si necesitas ayuda para cambiarlo." }
+    ] },
+    { "who": "them", "msgs": [
+      { "t": "u are a scam, no?" },
+      { "t": "..." }
+    ] },
+    { "who": "me", "msgs": [
+      { "t": "No??" },
+      { "t": "I have sent you a link to the transaction, with your address." },
+      { "t": "How would I rip you off? I'm just trying to buy my nickname", "o": "¿Cómo te estafaría? Solo estoy tratando de comprarte mi apodo" }
+    ] },
+    { "who": "them", "msgs": [
+      { "t": "the eth you sent does not exist, it is stuck in the network, it won't let me move it...", "o": "el eth que mandaste no existe, esta trabado en la red, no me deja moverlo..." },
+      { "t": "Swindler", "hl": true, "o": "estafador" }
+    ] },
+    { "who": "me", "msgs": [
+      { "t": "I can assure you it is in your account" },
+      { "t": "<link to their account in etherscan>" }
+    ] },
+    { "who": "them", "msgs": [{ "t": "eth bug" }] },
+    { "who": "me", "msgs": [
+      { "t": "You have already made 3 transactions, what do you mean you cannot move it?", "hl": true, "o": "ya ha realizado 3 transacciones, ¿qué quiere decir con que no puede moverlo?" }
+    ] },
+    { "who": "them", "msgs": [
+      { "t": "..." },
+      { "t": "Scammer", "o": "estafador" },
+      { "t": "don't talk to me, I was nice to you and look how you pay me", "o": "no me hables, fui amable contigo y mira como me pagas" }
+    ] },
+    { "who": "me", "msgs": [{ "t": "No... I made a honest transaction and you can see it" }] },
+    { "who": "them", "msgs": [
+      { "t": "see, its bug" },
+      { "t": "do not worry, here the scammer was you", "o": "no te preocupes, aqui el estafador fuiste tu" }
+    ] },
+    { "who": "me", "msgs": [
+      { "t": "What makes you think I'm a scammer? I think you just don't know how to use Ethereum / Metamask.", "o": "¿Qué te hace pensar que soy un estafador? Creo que simplemente no sabes cómo usar Ethereum / Metamask." },
+      { "t": "You made two transactions at your own address... They are called self transactions. So all that happened was that you burned the network fee. Why did you do that?", "o": "Hiciste dos transacciones en tu propia dirección ... Se denominan transacciones automáticas. Entonces, todo lo que sucedió fue que quemó la tarifa. ¿Por qué hiciste eso?" }
+    ] },
+    { "who": "them", "msgs": [{ "t": ":(" }] },
+    { "who": "me", "msgs": [
+      { "t": "It's not my fault that you are so incompetent with Ethereum that you can't even transfer the money.", "o": "No es mi culpa que seas tan incompetente con Ethereum que ni siquiera puedas transferir el dinero." },
+      { "t": "I don't believe that you really own the account.", "o": "No creo ni por un segundo que ya seas dueño de la cuenta." }
+    ] },
+    { "who": "them", "msgs": [
+      { "t": "you sent 30 dollars for a network that does not appear in the systems so that a person will change their nickname of a page", "o": "mandaste 30 dolares por una red que no aparece en los sistemas para que una persona cambiara su apodo de una pagina" },
+      { "t": "How are you going to send money without checking that it is really the person hahaha, the money is still there in the account, whenever you want I will give it back to you", "o": "como vas a mandar dinero sin comprobar que sea de verdad la persona jajajja, igual el dinero quedo ahi en la cuenta, cuando quieras te lo devuelvo" },
+      { "t": "but I couldn't get the money", "o": "pero no pude sacar el dinero" },
+      { "t": "xD" },
+      { "t": "for you it is little money, for me it is a very large amount", "o": "para vos es poco dinero, para mi es una cantidad muy grande" },
+      { "t": "and you, as a programmer, please check before sending money to someone", "o": "y vos, como programador, porfavor revisa antes de enviar dinero a alguien" }
+    ] },
+    { "who": "me", "msgs": [
+      { "t": "Do you have any proof that you own the account?", "o": "¿Tiene alguna prueba de que es propietario de la cuenta?" }
+    ] },
+    { "who": "them", "msgs": [
+      { "t": "the account is mine", "o": "la cuenta es mia" },
+      { "t": "I prefer not to continue talking to you", "o": "prefiero no seguir hablando con vos" },
+      { "t": "I know nothing", "o": "no se nada" },
+      { "t": "I do not study computer science", "o": "no estudio informatica" },
+      { "t": "I do not believe in God", "hl": true, "o": "no creo en dios" },
+      { "t": "and I do not own the account", "hl": true, "o": "y no soy dueño de la cuenta" },
+      { "t": "the person in my photo is not me, my name is not <redacted>", "o": "la persona de mi foto no soy yo, mi nombre no es <redacted>" },
+      { "t": "(in spanish) and I do not speak spanish", "hl": true, "o": "y no hablo español" },
+      { "t": "ty for 30 <3" }
+    ] },
+    { "who": "me", "msgs": [{ "t": "Oh. Well that was interesting." }] },
+    { "who": "them", "msgs": [
+      { "t": "you are a great person, a bit annoying and arrogant, but without bad intentions, I hope you can get your nickname, which by the way \"Narigon\" in Spanish means having a very big nose" }
+    ] },
+    { "who": "me", "msgs": [{ "t": "Yeah I'm aware. It fits me perfectly." }] }
+  ]
+}

@@ -1,0 +1,13 @@
+[package]
+name = "og"
+version = "0.1.0"
+edition = "2021"
+description = "Generates Open Graph card images for narigon.dev at build time"
+
+[dependencies]
+resvg = "0.45"
+textwrap = "0.16"
+toml = "0.8"
+
+[profile.release]
+strip = true

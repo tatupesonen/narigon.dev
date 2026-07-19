@@ -1,0 +1,19 @@
+{#- Renders a slice of the Facebook chat transcript from a-surprise-scammer.
+    Messages with an "o" key show the original untranslated text on hover. -#}
+{%- set data = load_data(path="content/a-surprise-scammer/chat.json") -%}
+<div class="chat">
+{%- for chunk in data.chunks | slice(start=from, end=to) %}
+  <div class="chat-group {{ chunk.who }}">
+    {%- if chunk.who == "them" %}
+    <img class="chat-avatar" src="/a-surprise-scammer/scammer.jpg" alt="Kertrud" loading="lazy" width="32" height="32">
+    {%- else %}
+    <img class="chat-avatar" src="/a-surprise-scammer/narigon.png" alt="narigon" loading="lazy" width="32" height="32">
+    {%- endif %}
+    <div class="chat-msgs">
+    {%- for m in chunk.msgs %}
+      <span class="bubble{% if m.hl %} hl{% endif %}{% if m.o %} translated{% endif %}"{% if m.o %} title="{{ m.o }}"{% endif %}>{{ m.t }}</span>
+    {%- endfor %}
+    </div>
+  </div>
+{%- endfor %}
+</div>

@@ -1,0 +1,9 @@
+# Zola build output
+public/
+
+# Generated Open Graph images (built in CI by tools/og)
+content/*/og.png
+static/og-default.png
+
+# Rust
+tools/og/target/

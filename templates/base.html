@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+  <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="{{ get_url(path='style.css') | safe }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path='rss.xml') | safe }}">
+  <link rel="canonical" href="{% block canonical %}{{ config.base_url | safe }}{% endblock canonical %}">
+  {% block og %}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:title" content="{{ config.title }}">
+  <meta property="og:description" content="{{ config.description }}">
+  <meta property="og:url" content="{{ config.base_url | safe }}">
+  <meta property="og:image" content="{{ get_url(path='og-default.png') | safe }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ config.title }}">
+  <meta name="twitter:description" content="{{ config.description }}">
+  <meta name="twitter:image" content="{{ get_url(path='og-default.png') | safe }}">
+  {% endblock og %}
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/">narigon.dev</a>
+      <span>
+        <a href="{{ config.extra.github | safe }}">github</a>
+        <a href="/rss.xml">rss</a>
+      </span>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock content %}
+  </main>
+  <footer>
+    <p>© {{ config.extra.author }} · <a href="{{ config.extra.repo | safe }}">view the site's code</a></p>
+  </footer>
+</body>
+</html>

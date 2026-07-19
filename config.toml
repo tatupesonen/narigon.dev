@@ -1,0 +1,22 @@
+base_url = "https://narigon.dev"
+title = "narigon"
+description = "A place for my ramblings."
+
+compile_sass = false
+build_search_index = false
+generate_feeds = true
+feed_filenames = ["rss.xml"]
+
+[markdown]
+external_links_target_blank = true
+
+[markdown.highlighting]
+light_theme = "one-light"
+dark_theme = "one-dark-pro"
+
+[extra]
+author = "Tatu Pesonen"
+email = "tatu@narigon.dev"
+github = "https://github.com/tatupesonen"
+repo = "https://github.com/tatupesonen/narigon.dev"
+pgp_key = "/publickey.tatu@narigon.dev-8d409ff7767d83f81fc2d5f5a4c5e8fdd1746806.asc"

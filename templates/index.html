@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Hi, I'm narigon 👋</h1>
+<div class="bio">
+  {{ section.content | safe }}
+</div>
+<ul class="links">
+  <li><a href="{{ config.extra.github | safe }}">GitHub</a></li>
+  <li><a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a></li>
+  <li><a href="{{ config.extra.pgp_key | safe }}">PGP key for email</a></li>
+  <li><a href="/rss.xml">RSS feed</a></li>
+</ul>
+
+<h2>{{ section.pages | length }} posts</h2>
+<ul class="posts">
+  {% for page in section.pages %}
+  <li>
+    <span class="post-date">{{ page.date | date(format="%Y-%m-%d") }}</span>
+    <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+    <span class="post-desc">{{ page.description }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock content %}
