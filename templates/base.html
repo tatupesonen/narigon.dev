@@ -18,7 +18,7 @@
   <link rel="preload" href="/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/ibm-plex-sans-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="{{ get_url(path='style.css') | safe }}">
+  <link rel="stylesheet" href="{{ get_url(path='style.css', cachebust=true) | safe }}">
   <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path='rss.xml') | safe }}">
   <link rel="canonical" href="{% block canonical %}{{ config.base_url | safe }}/{% endblock canonical %}">
   {% block og %}
@@ -100,6 +100,6 @@
       <a href="/rss.xml">RSS</a>
     </footer>
   </div>
-  <script src="{{ get_url(path='site.js') | safe }}" defer></script>
+  <script src="{{ get_url(path='site.js', cachebust=true) | safe }}" defer></script>
 </body>
 </html>
