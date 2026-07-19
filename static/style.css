@@ -70,12 +70,22 @@ html[data-theme="dark"] {
   animation-duration: 0.4s;
   animation-timing-function: cubic-bezier(0.3, 0.9, 0.3, 1);
 }
-::view-transition-group(post-title) {
-  animation-duration: 0.35s;
-}
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 0.22s;
+}
+/* Whole article slides in when opening a post (entry only: no old snapshot). */
+@keyframes article-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+::view-transition-new(article):only-child {
+  animation: article-in 0.35s cubic-bezier(0.3, 0.9, 0.3, 1) backwards;
+}
+article {
+  view-transition-name: article;
 }
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
@@ -221,6 +231,7 @@ nav .spacer { flex: 1; }
   align-items: center;
   gap: 10px;
   min-width: 0;
+  height: 46px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--card);
@@ -237,40 +248,44 @@ nav .spacer { flex: 1; }
   }
 }
 .activity-card[hidden] { display: none; }
-/* Full-bleed art: flush with the card's left edge, no inner crop margins. */
+/* Full-bleed art: always a square exactly as tall as the card. */
 .activity-card .art {
-  width: 46px;
-  height: 46px;
+  height: 100%;
+  width: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   background: var(--line);
   flex: none;
-  align-self: stretch;
 }
 .activity-card .art[hidden] { display: none; }
 .activity-text {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  justify-content: center;
+  gap: 2px;
   min-width: 0;
-  padding: 5px 0;
+  padding: 5px 0 3px;
+  align-self: stretch;
 }
 .activity-card .kicker {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   font-family: "JetBrains Mono", monospace;
-  font-size: 10px;
+  font-size: 9.5px;
+  line-height: 1;
   color: var(--muted);
   white-space: nowrap;
 }
+.activity-card .kicker svg { display: block; }
 .activity-card .icon-spotify { color: #1db954; flex: none; }
 .activity-card .icon-game { flex: none; }
 .activity-card[data-kind="game"] .icon-spotify { display: none; }
 .activity-card:not([data-kind="game"]) .icon-game { display: none; }
 .activity-card .song {
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.25;
   white-space: nowrap;
   overflow: hidden;
   max-width: 30ch;
@@ -292,7 +307,7 @@ nav .spacer { flex: 1; }
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 2px;
+  margin-top: 0;
 }
 .activity-card .progress[hidden] { display: none; }
 .activity-card .bar {
@@ -311,7 +326,8 @@ nav .spacer { flex: 1; }
 }
 .activity-card .ptime {
   font-family: "JetBrains Mono", monospace;
-  font-size: 9.5px;
+  font-size: 9px;
+  line-height: 1;
   color: var(--muted2);
   flex: none;
 }
@@ -472,7 +488,6 @@ nav .spacer { flex: 1; }
   line-height: 1.12;
   letter-spacing: -0.01em;
   text-wrap: pretty;
-  view-transition-name: post-title;
 }
 .article-head .standfirst {
   margin: 14px 0 0;
@@ -720,6 +735,9 @@ footer a:hover { color: var(--accent); }
   .nav-links { gap: 12px; font-size: 13px; }
   /* now-playing card drops to its own row under the nav */
   .activity-card { order: 99; flex-basis: 100%; }
+  /* let the text and progress bar use the full card width */
+  .activity-card .activity-text { flex: 1; }
+  .activity-card .song { max-width: none; }
   .presence .line { display: none; } /* dot only next to the wordmark */
   .hero {
     margin-top: 48px;

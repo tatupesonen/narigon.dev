@@ -30,30 +30,6 @@
     });
   }
 
-  // ----- Post-title view transition -----
-  // The article h1 always carries view-transition-name: post-title. On list
-  // pages only one row may carry it: the one being clicked (forward morph) or
-  // the one we just came back from (reverse morph), tracked in sessionStorage.
-  var LAST = "narigon-last-post";
-  if (document.querySelector(".article-head h1")) {
-    sessionStorage.setItem(LAST, location.pathname);
-  }
-  document.querySelectorAll("[data-post-link]").forEach(function (link) {
-    var title = link.querySelector(".title");
-    if (!title) return;
-    var path = new URL(link.href).pathname;
-    if (sessionStorage.getItem(LAST) === path) {
-      title.style.viewTransitionName = "post-title";
-    }
-    link.addEventListener("click", function () {
-      document.querySelectorAll("[data-post-link] .title").forEach(function (t) {
-        t.style.viewTransitionName = "";
-      });
-      title.style.viewTransitionName = "post-title";
-      sessionStorage.setItem(LAST, path);
-    });
-  });
-
   // ----- Discord presence via the Lanyard websocket (like the old site) -----
   // Subscribes to the configured Discord ID and keeps the line live:
   // Spotify > playing activity > bare status. Hidden until real data arrives.

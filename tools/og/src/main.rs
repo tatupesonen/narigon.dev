@@ -11,11 +11,13 @@ use std::sync::Arc;
 const WIDTH: u32 = 1200;
 const HEIGHT: u32 = 630;
 
-const BG: &str = "#1a1712";
-const BORDER: &str = "#2e2a20";
-const FG: &str = "#ece5d4";
-const MUTED: &str = "#a1977f";
-const ACCENT: &str = "#dfa050";
+// Site light theme (matches static/style.css :root tokens).
+const BG: &str = "#faf7f0";
+const BORDER: &str = "#e8e1d2";
+const FG: &str = "#211d16";
+const MUTED: &str = "#6b6355";
+const MUTED2: &str = "#a39a87";
+const ACCENT: &str = "#8c5b2a";
 
 struct Card {
     title: String,
@@ -30,7 +32,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut fontdb = usvg::fontdb::Database::new();
     fontdb.load_font_data(include_bytes!("../assets/JetBrainsMono-Regular.ttf").to_vec());
     fontdb.load_font_data(include_bytes!("../assets/JetBrainsMono-Bold.ttf").to_vec());
-    fontdb.load_font_data(include_bytes!("../assets/JetBrainsMono-ExtraBold.ttf").to_vec());
+    fontdb.load_font_data(include_bytes!("../assets/Newsreader-var.ttf").to_vec());
+    fontdb.load_font_data(include_bytes!("../assets/Newsreader-Italic-var.ttf").to_vec());
     let mut options = usvg::Options::default();
     options.fontdb = Arc::new(fontdb);
 
@@ -145,17 +148,17 @@ fn render(card: &Card, options: &usvg::Options, out: &Path) -> Result<(), Box<dy
 }
 
 fn build_svg(card: &Card) -> String {
-    // JetBrains Mono advance width is 0.6em; keep lines inside the 1040px text box.
-    let title_size = 76.0;
-    let title_cols = (1040.0 / (title_size * 0.6)) as usize;
+    // Newsreader averages ~0.5em advance; keep lines inside the 1040px text box.
+    let title_size = 84.0;
+    let title_cols = (1040.0 / (title_size * 0.5)) as usize;
     let title_lines: Vec<String> = textwrap::wrap(&card.title, title_cols)
         .into_iter()
         .take(3)
         .map(|l| l.into_owned())
         .collect();
 
-    let desc_size = 34.0;
-    let desc_cols = (1040.0 / (desc_size * 0.6)) as usize;
+    let desc_size = 36.0;
+    let desc_cols = (1040.0 / (desc_size * 0.5)) as usize;
     let desc_lines: Vec<String> = textwrap::wrap(&card.description, desc_cols)
         .into_iter()
         .take(2)
@@ -163,25 +166,25 @@ fn build_svg(card: &Card) -> String {
         .collect();
 
     let mut text = String::new();
-    let mut y = 265.0;
+    let mut y = 275.0;
     for line in &title_lines {
         text.push_str(&format!(
-            r#"<text x="80" y="{y}" font-family="JetBrains Mono" font-weight="800" font-size="{title_size}" fill="{FG}">{}</text>"#,
+            r#"<text x="80" y="{y}" font-family="Newsreader" font-weight="500" font-size="{title_size}" letter-spacing="-0.8" fill="{FG}">{}</text>"#,
             xml_escape(line)
         ));
-        y += title_size * 1.25;
+        y += title_size * 1.15;
     }
-    y += 20.0;
+    y += 14.0;
     for line in &desc_lines {
         text.push_str(&format!(
-            r#"<text x="80" y="{y}" font-family="JetBrains Mono" font-size="{desc_size}" fill="{MUTED}">{}</text>"#,
+            r#"<text x="80" y="{y}" font-family="Newsreader" font-style="italic" font-size="{desc_size}" fill="{MUTED}">{}</text>"#,
             xml_escape(line)
         ));
-        y += desc_size * 1.45;
+        y += desc_size * 1.4;
     }
     if !card.footer.is_empty() {
         text.push_str(&format!(
-            r#"<text x="80" y="560" font-family="JetBrains Mono" font-size="28" fill="{MUTED}">{}</text>"#,
+            r#"<text x="80" y="558" font-family="JetBrains Mono" font-size="26" fill="{MUTED2}">{}</text>"#,
             xml_escape(&card.footer)
         ));
     }
@@ -190,8 +193,8 @@ fn build_svg(card: &Card) -> String {
         r#"<svg width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" xmlns="http://www.w3.org/2000/svg">
   <rect width="{WIDTH}" height="{HEIGHT}" fill="{BG}"/>
   <rect x="6" y="6" width="{}" height="{}" fill="none" stroke="{BORDER}" stroke-width="2" rx="18"/>
-  <text x="80" y="120" font-family="JetBrains Mono" font-weight="700" font-size="36" fill="{ACCENT}">narigon.dev</text>
-  <rect x="82" y="140" width="72" height="6" fill="{ACCENT}" rx="3"/>
+  <text x="80" y="118" font-family="Newsreader" font-style="italic" font-weight="500" font-size="40" fill="{FG}">narigon</text>
+  <rect x="82" y="138" width="64" height="5" fill="{ACCENT}" rx="2.5"/>
   {text}
 </svg>"#,
         WIDTH - 12,
