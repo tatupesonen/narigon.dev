@@ -9,28 +9,6 @@
   </div>
 </div>
 
-<div class="writing-head">
-  <h2>Writing</h2>
-  <span class="count">{{ section.pages | length }} posts</span>
-</div>
-<div class="post-list">
-  {% for page in section.pages %}
-  <a class="post-row" href="{{ page.permalink | safe }}" data-post-link>
-    <span class="title">{{ page.title }}</span>
-    <span class="leader"></span>
-    <span class="when">{{ page.date | date(format="%b %Y") }}</span>
-  </a>
-  {% endfor %}
-</div>
-
-<h2 class="section-head">Interests</h2>
-<div class="chips">
-  <span class="chip">Software development</span>
-  <span class="chip">Photography</span>
-  <span class="chip">Mechanical keyboards</span>
-  <span class="chip">Kubernetes</span>
-</div>
-
 <h2 class="section-head">Contact</h2>
 <div class="contact-card">
   <div class="contact-row">
@@ -45,5 +23,19 @@
     <span class="label">github</span>
     <a href="{{ config.extra.github | safe }}">github.com/tatupesonen</a>
   </div>
+</div>
+
+<div class="writing-head">
+  <h2>Writing</h2>
+  <span class="count">{{ section.pages | length }} posts</span>
+</div>
+<div class="post-list">
+  {% for page in section.pages %}
+  <a class="post-row" href="{{ page.permalink | safe }}" data-post-link>
+    <span class="title">{{ page.title }}</span>
+    <span class="leader"></span>
+    <span class="when">{{ page.date | date(format="%b %Y") }}</span>
+  </a>
+  {% endfor %}
 </div>
 {% endblock content %}

@@ -77,14 +77,6 @@ html[data-theme="dark"] {
 ::view-transition-new(root) {
   animation-duration: 0.22s;
 }
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    animation: none !important;
-  }
-}
-
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
 
@@ -217,29 +209,42 @@ nav .spacer { flex: 1; }
 .presence[data-status="idle"] .dot { background: var(--amber); }
 .presence[data-status="dnd"] .dot { background: var(--red); }
 .presence[data-status="offline"] .dot { background: var(--muted2); }
+.presence { transition: opacity 0.35s ease; }
+@starting-style {
+  .presence:not([hidden]) { opacity: 0; }
+}
 .presence[hidden] { display: none; }
 
 /* Compact now-playing card, lives in the navbar like on the old site. */
 .activity-card {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--card);
-  padding: 4px 10px 4px 4px;
+  padding: 0 12px 0 0;
+  overflow: hidden;
   text-decoration: none;
   color: var(--ink);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+@starting-style {
+  .activity-card:not([hidden]) {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
 }
 .activity-card[hidden] { display: none; }
+/* Full-bleed art: flush with the card's left edge, no inner crop margins. */
 .activity-card .art {
-  width: 34px;
-  height: 34px;
-  border-radius: 5px;
+  width: 46px;
+  height: 46px;
   object-fit: cover;
   background: var(--line);
   flex: none;
+  align-self: stretch;
 }
 .activity-card .art[hidden] { display: none; }
 .activity-text {
@@ -247,6 +252,7 @@ nav .spacer { flex: 1; }
   flex-direction: column;
   gap: 1px;
   min-width: 0;
+  padding: 5px 0;
 }
 .activity-card .kicker {
   display: flex;
@@ -267,8 +273,19 @@ nav .spacer { flex: 1; }
   line-height: 1.35;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   max-width: 30ch;
+}
+.activity-card .song .inner {
+  display: inline-block;
+  white-space: nowrap;
+}
+/* Long song titles scroll back and forth instead of truncating. */
+.activity-card .song.scroll .inner {
+  animation: song-scroll var(--song-scroll-dur, 8s) linear infinite alternate;
+}
+@keyframes song-scroll {
+  0%, 12% { transform: translateX(0); }
+  88%, 100% { transform: translateX(var(--song-scroll-shift, 0px)); }
 }
 .activity-card[href]:hover .song { color: var(--accent); }
 .activity-card .progress {
@@ -406,20 +423,6 @@ nav .spacer { flex: 1; }
   font-style: italic;
   font-weight: 500;
   font-size: 22px;
-}
-
-.chips {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.chip {
-  border: 1px solid var(--line2);
-  border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 13.5px;
-  color: var(--body);
 }
 
 .contact-card {

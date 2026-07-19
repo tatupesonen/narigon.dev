@@ -122,9 +122,22 @@
       art.hidden = true;
     }
     card.querySelector(".kicker-text").textContent = kicker;
-    card.querySelector(".song").textContent = label;
+    var song = card.querySelector(".song");
+    var inner = song.querySelector(".inner");
+    inner.textContent = label;
     setProgress(timestamps);
     card.hidden = false;
+    // Long titles scroll back and forth instead of truncating.
+    requestAnimationFrame(function () {
+      var overflow = inner.scrollWidth - song.clientWidth;
+      if (overflow > 4) {
+        song.style.setProperty("--song-scroll-shift", -overflow + "px");
+        song.style.setProperty("--song-scroll-dur", Math.max(6, overflow / 15 + 4) + "s");
+        song.classList.add("scroll");
+      } else {
+        song.classList.remove("scroll");
+      }
+    });
   };
 
   var STATUS_LABELS = {
@@ -158,6 +171,12 @@
     });
   };
 
+  // Render the last known presence immediately so navigation doesn't pop.
+  try {
+    var cached = JSON.parse(sessionStorage.getItem("narigon-presence"));
+    if (cached) render(cached);
+  } catch (e) { /* no cache */ }
+
   var heartbeat = null;
   var connect = function () {
     var ws = new WebSocket("wss://api.lanyard.rest/socket");
@@ -170,7 +189,12 @@
         }, (incoming.d && incoming.d.heartbeat_interval) || 30000);
         return;
       }
-      if (incoming.op === 0 && incoming.d) render(incoming.d);
+      if (incoming.op === 0 && incoming.d) {
+        try {
+          sessionStorage.setItem("narigon-presence", JSON.stringify(incoming.d));
+        } catch (e) { /* storage full/blocked */ }
+        render(incoming.d);
+      }
     });
     ws.addEventListener("close", function () {
       clearInterval(heartbeat);
