@@ -264,6 +264,7 @@ dependencies = [
 name = "og"
 version = "0.1.0"
 dependencies = [
+ "base64",
  "resvg",
  "textwrap",
  "toml",

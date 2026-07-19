@@ -148,17 +148,23 @@ fn render(card: &Card, options: &usvg::Options, out: &Path) -> Result<(), Box<dy
 }
 
 fn build_svg(card: &Card) -> String {
-    // Newsreader averages ~0.5em advance; keep lines inside the 1040px text box.
-    let title_size = 84.0;
-    let title_cols = (1040.0 / (title_size * 0.5)) as usize;
+    use base64::Engine;
+    let portrait = base64::engine::general_purpose::STANDARD
+        .encode(include_bytes!("../assets/portrait.jpg"));
+
+    // Text column ends where the photo panel starts (diagonal edge at ~840px).
+    let text_width = 700.0;
+    // Newsreader averages ~0.5em advance; keep lines inside the text column.
+    let title_size = 68.0;
+    let title_cols = (text_width / (title_size * 0.5)) as usize;
     let title_lines: Vec<String> = textwrap::wrap(&card.title, title_cols)
         .into_iter()
         .take(3)
         .map(|l| l.into_owned())
         .collect();
 
-    let desc_size = 36.0;
-    let desc_cols = (1040.0 / (desc_size * 0.5)) as usize;
+    let desc_size = 33.0;
+    let desc_cols = (text_width / (desc_size * 0.5)) as usize;
     let desc_lines: Vec<String> = textwrap::wrap(&card.description, desc_cols)
         .into_iter()
         .take(2)
@@ -166,15 +172,22 @@ fn build_svg(card: &Card) -> String {
         .collect();
 
     let mut text = String::new();
-    let mut y = 275.0;
+    // Meta line up top, like the old site's thumbnails.
+    if !card.footer.is_empty() {
+        text.push_str(&format!(
+            r#"<text x="80" y="122" font-family="JetBrains Mono" font-size="26" fill="{MUTED2}">{}</text>"#,
+            xml_escape(&card.footer)
+        ));
+    }
+    let mut y = 235.0;
     for line in &title_lines {
         text.push_str(&format!(
-            r#"<text x="80" y="{y}" font-family="Newsreader" font-weight="500" font-size="{title_size}" letter-spacing="-0.8" fill="{FG}">{}</text>"#,
+            r#"<text x="80" y="{y}" font-family="Newsreader" font-weight="500" font-size="{title_size}" letter-spacing="-0.7" fill="{FG}">{}</text>"#,
             xml_escape(line)
         ));
         y += title_size * 1.15;
     }
-    y += 14.0;
+    y += 16.0;
     for line in &desc_lines {
         text.push_str(&format!(
             r#"<text x="80" y="{y}" font-family="Newsreader" font-style="italic" font-size="{desc_size}" fill="{MUTED}">{}</text>"#,
@@ -182,19 +195,21 @@ fn build_svg(card: &Card) -> String {
         ));
         y += desc_size * 1.4;
     }
-    if !card.footer.is_empty() {
-        text.push_str(&format!(
-            r#"<text x="80" y="558" font-family="JetBrains Mono" font-size="26" fill="{MUTED2}">{}</text>"#,
-            xml_escape(&card.footer)
-        ));
-    }
 
     format!(
         r#"<svg width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="round"><rect x="0" y="0" width="{WIDTH}" height="{HEIGHT}" rx="24"/></clipPath>
+    <clipPath id="slant"><polygon points="925,0 {WIDTH},0 {WIDTH},{HEIGHT} 845,{HEIGHT}"/></clipPath>
+  </defs>
   <rect width="{WIDTH}" height="{HEIGHT}" fill="{BG}"/>
+  <g clip-path="url(#round)">
+    <g clip-path="url(#slant)">
+      <image x="820" y="0" width="380" height="{HEIGHT}" preserveAspectRatio="xMidYMid slice" href="data:image/jpeg;base64,{portrait}"/>
+    </g>
+  </g>
   <rect x="6" y="6" width="{}" height="{}" fill="none" stroke="{BORDER}" stroke-width="2" rx="18"/>
-  <text x="80" y="118" font-family="Newsreader" font-style="italic" font-weight="500" font-size="40" fill="{FG}">narigon</text>
-  <rect x="82" y="138" width="64" height="5" fill="{ACCENT}" rx="2.5"/>
+  <text x="80" y="568" font-family="Newsreader" font-style="italic" font-weight="500" font-size="34" fill="{ACCENT}">narigon.dev</text>
   {text}
 </svg>"#,
         WIDTH - 12,

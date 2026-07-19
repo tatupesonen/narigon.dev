@@ -8,6 +8,7 @@ description = "Generates Open Graph card images for narigon.dev at build time"
 resvg = "0.45"
 textwrap = "0.16"
 toml = "0.8"
+base64 = "0.22"
 
 [profile.release]
 strip = true
