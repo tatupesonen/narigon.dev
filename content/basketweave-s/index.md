@@ -3,12 +3,14 @@ title = "Basketweave-S"
 description = "Assembling a cheap DIY Alice-like keyboard"
 date = 2022-01-07
 
-[extra]
+[taxonomies]
 tags = ["Keyboards", "DIY", "QMK"]
+
+[extra]
 read = "9 min"
 +++
 
-![Basketweave-S](side.jpg)
+{{ img(src="side.jpg", alt="Basketweave-S", lazy=false) }}
 
 Hello! In this blog post, we'll be going through the build process of the <span class="t">Basketweave-S</span> mechanical keyboard.
 
@@ -65,7 +67,7 @@ As for this build, the parts we will be using are the following:\
 
 As for my tools, I'm using a TS100 soldering iron.
 
-![TS100 soldering iron](iron.jpg)
+{{ img(src="iron.jpg", alt="TS100 soldering iron") }}
 
 ## Introduction
 
@@ -82,7 +84,7 @@ This part is straightforward, just follow the build guide and make sure to pay a
 
 For inserting the ATmega32a, the pins might be a bit too "wide" around the socket. This is easily remedied by pushing the flat side of the pins against the table so they turn _slightly_ inwards.
 
-![MCU](mcu.jpg)
+{{ img(src="mcu.jpg", alt="MCU") }}
 
 Once you're done soldering this, we're ready to move on to installing [QMK](#qmk)
 
@@ -138,7 +140,7 @@ If you're using [QMK Toolbox](https://github.com/qmk/qmk_toolbox), you can simpl
 
 If your Basketweave-S is not showing up as a connected device, try holding the **boot** button on the top of the PCB to put it into bootloader mode when plugging in the USB-C cable.
 
-![QMK Toolbox flashing](qmktoolbox.jpg)
+{{ img(src="qmktoolbox.jpg", alt="QMK Toolbox flashing") }}
 
 {% caption() %}A successful flash.{% end %}
 
@@ -156,7 +158,7 @@ make -kb 42keebs/basketweave_s:vial:flash
 
 #### Diodes
 
-![My friend's Basketweave-S' diodes](diodes.jpg)
+{{ img(src="diodes.jpg", alt="My friend's Basketweave-S' diodes") }}
 
 So the MCU works. That means it's time to put on some diodes!
 
@@ -165,7 +167,7 @@ Depending on your speed this might take an hour / a few hours. I was very lazy s
 
 #### Stabilizers
 
-![Stabs](stabs.jpg)
+{{ img(src="stabs.jpg", alt="Stabs") }}
 
 For the acoustics of the board (<span class="t">yes, keyboard nerds care about that</span>) I wanted to get some premium stabilizers. I opted to use some Durock V2 screw in stabilizers.
 
@@ -181,7 +183,7 @@ I also wanted to pamper myself so I got myself some stab foam. You put this betw
 
 Now after all of that is done, time to screw on the stabs.
 
-![Mounting the screw in stabs](stabmount.jpg)
+{{ img(src="stabmount.jpg", alt="Mounting the screw in stabs") }}
 
 #### Switches
 
@@ -189,7 +191,7 @@ This is the part that most mechanical keyboard enthusiasts hate. It's called lub
 
 Believe me, the first time I heard people do this I thought they were some kind of nutjobs. But I did it for my second mechanical keyboard I modified and noticed a significant difference in smoothness! If you have the time to do it, it's definitely worth it. I wanted to splurge on this board so I spent a lot of time doing this.
 
-![Lubing the stem](lubing.jpg)
+{{ img(src="lubing.jpg", alt="Lubing the stem") }}
 
 {% caption() %}Lubing the stem{% end %}
 
@@ -204,7 +206,7 @@ To save some time lubing the switches, I used a method called bag lubing. That m
 
 Then you do a pass around on the bottom housing, put in the spring, take the stem and put a tiny even coat around it. There's a saying in the keyboard community that goes _"less is more"_, simply because it's annoying to fix an overlubed switch.
 
-![Ready for filming](switch.jpg)
+{{ img(src="switch.jpg", alt="Ready for filming") }}
 
 {% caption() %}A switch ready to be filmed.{% end %}
 
@@ -216,11 +218,11 @@ You may have noticed that the white PCB looks a bit different than mine. That's 
 
 In my case, since I already soldered in the sockets, I only have to solder in the encoders.
 
-![EC11 rotary encoder](encoder.jpg)
+{{ img(src="encoder.jpg", alt="EC11 rotary encoder") }}
 
 After that, it's time to pop in the switches. I was really lazy with the lubing process. I was basically doing 10 switches at once and then putting them in the keyboard just to see the progress.
 
-![Messy desk](table.jpg)
+{{ img(src="table.jpg", alt="Messy desk") }}
 
 {% caption() %}The table got pretty messy during the build process.{% end %}
 
@@ -228,11 +230,11 @@ After that, it's time to pop in the switches. I was really lazy with the lubing 
 
 Here's some pretty images of the finished build:
 
-![Keycaps and encoder](encoder_and_keys.jpg)
+{{ img(src="encoder_and_keys.jpg", alt="Keycaps and encoder") }}
 
-![Keycaps](encoder3.jpg)
+{{ img(src="encoder3.jpg", alt="Keycaps") }}
 
-![Finished board](finished_build.jpg)
+{{ img(src="finished_build.jpg", alt="Finished board") }}
 
 #### Experiences with Alice layout
 

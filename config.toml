@@ -1,17 +1,25 @@
 base_url = "https://narigon.dev"
 title = "narigon"
-description = "A place for my ramblings."
+description = "Notes on software engineering, mechanical keyboards, and photography by Tatu Pesonen."
+author = "Tatu Pesonen"
 
 compile_sass = false
 build_search_index = false
 generate_feeds = true
-feed_filenames = ["rss.xml"]
+feed_filenames = ["rss.xml", "atom.xml"]
+minify_html = true
+
+taxonomies = [{ name = "tags", feed = true }]
 
 [markdown]
 external_links_target_blank = true
+smart_punctuation = true
+insert_anchor_links = "heading"
+lazy_async_image = true
 
 [markdown.highlighting]
 theme = "one-dark-pro"
+error_on_missing_language = true
 
 [extra]
 author = "Tatu Pesonen"

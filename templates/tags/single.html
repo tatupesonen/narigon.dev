@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ term.name }} · {{ config.title }}{% endblock title %}
+{% block description %}Posts tagged {{ term.name }} on {{ config.title }}.{% endblock description %}
+{% block canonical %}{{ term.permalink | safe }}{% endblock canonical %}
+
+{% block content %}
+<div class="page-head">
+  <h1>{{ term.name }}</h1>
+  <p class="sub">{{ term.pages | length }} post{{ term.pages | length | pluralize }} with this tag · <a href="/tags/">all tags</a></p>
+</div>
+<div class="blog-list">
+  {% for post in term.pages %}
+  <a class="blog-row" href="{{ post.permalink | safe }}" data-post-link>
+    <div class="meta"><time datetime="{{ post.date }}">{{ post.date | date(format="%B %-d, %Y") }}</time> · {% if post.extra.read %}{{ post.extra.read }}{% else %}{{ post.reading_time }} min{% endif %} read</div>
+    <div class="title">{{ post.title }}</div>
+    <div class="desc">{{ post.description }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock content %}

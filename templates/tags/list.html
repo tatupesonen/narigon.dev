@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Tags · {{ config.title }}{% endblock title %}
+{% block description %}Every topic on {{ config.title }}, with post counts.{% endblock description %}
+{% block canonical %}{{ config.base_url | safe }}/tags/{% endblock canonical %}
+
+{% block content %}
+<div class="page-head">
+  <h1>Tags</h1>
+  <p class="sub">Every topic I’ve written about.</p>
+</div>
+<div class="post-list">
+  {% for term in terms %}
+  <a class="post-row" href="{{ term.permalink | safe }}">
+    <span class="title">{{ term.name }}</span>
+    <span class="when">{{ term.page_count }} post{{ term.page_count | pluralize }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock content %}

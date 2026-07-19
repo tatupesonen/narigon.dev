@@ -1,0 +1,11 @@
+{#- Responsive colocated image: WebP at 1x/2x the content column width, with
+    the original's dimensions so the layout doesn't shift while loading.
+    Lazy by default; pass lazy=false for above-the-fold images. -#}
+{%- set full = page.colocated_path ~ src -%}
+{%- set meta = get_image_metadata(path=full) -%}
+{%- set small = resize_image(path=full, width=640, op="fit_width", format="webp", quality=80) -%}
+{%- set large = resize_image(path=full, width=1280, op="fit_width", format="webp", quality=80) -%}
+<img src="{{ large.url | safe }}"
+  {%- if small.width != large.width %} srcset="{{ small.url | safe }} {{ small.width }}w, {{ large.url | safe }} {{ large.width }}w" sizes="(max-width: 640px) 100vw, 592px"{%- endif %}
+  width="{{ meta.width }}" height="{{ meta.height }}" alt="{{ alt }}"
+  {%- if lazy | default(value=true) %} loading="lazy" decoding="async"{% endif %}>

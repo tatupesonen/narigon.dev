@@ -6,13 +6,21 @@
   <title>{% block title %}{{ config.title }} - {{ config.description }}{% endblock title %}</title>
   <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
   <meta name="author" content="{{ config.extra.author }}">
-  <meta name="theme-color" content="#faf7f0">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f0">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1712">
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/narigon.png">
   <script>
-    (function () {
-      var t = localStorage.getItem("narigon-theme");
-      if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+    (() => {
+      let t = localStorage.getItem("narigon-theme");
+      if (t !== "dark" && t !== "light") {
+        t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.dataset.theme = t;
+      const color = t === "dark" ? "#1a1712" : "#faf7f0";
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m) => {
+        m.setAttribute("content", color);
+      });
     })();
   </script>
   <link rel="preload" href="/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
@@ -41,15 +49,16 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "{{ config.title }}",
+    "name": {{ config.title | json_encode | safe }},
     "url": "{{ config.base_url | safe }}/",
-    "description": "{{ config.description }}",
-    "author": { "@type": "Person", "name": "{{ config.extra.author }}", "url": "{{ config.base_url | safe }}/" }
+    "description": {{ config.description | json_encode | safe }},
+    "author": { "@type": "Person", "name": {{ config.extra.author | json_encode | safe }}, "url": "{{ config.base_url | safe }}/" }
   }
   </script>
   {% endblock jsonld %}
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="wrap">
     <nav>
       <a class="brand" href="/">
@@ -89,7 +98,7 @@
       </div>
     </nav>
 
-    <main>
+    <main id="main">
       {% block content %}{% endblock content %}
     </main>
 

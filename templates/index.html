@@ -4,7 +4,7 @@
 <div class="hero">
   <img src="/narigon.png" alt="narigon avatar" width="72" height="72">
   <div>
-    <h1>Hi, I’m narigon.</h1>
+    <h1>Hi, I’m Tatu.</h1>
     {{ section.content | safe }}
   </div>
 </div>
@@ -33,8 +33,7 @@
   {% for page in section.pages %}
   <a class="post-row" href="{{ page.permalink | safe }}" data-post-link>
     <span class="title">{{ page.title }}</span>
-    <span class="leader"></span>
-    <span class="when">{{ page.date | date(format="%b %Y") }}</span>
+    <time class="when" datetime="{{ page.date }}">{{ page.date | date(format="%b %Y") }}</time>
   </a>
   {% endfor %}
 </div>

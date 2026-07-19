@@ -3,7 +3,7 @@ title = "Hello world"
 description = "A Finnish introvert tries out blogging"
 date = 2021-11-17
 
-[extra]
+[taxonomies]
 tags = ["Introduction", "Planning"]
 +++
 

@@ -3,12 +3,14 @@ title = "An opportunistic scammer"
 description = "Scammed for only 30 dollars"
 date = 2021-12-28
 
-[extra]
+[taxonomies]
 tags = ["Scammed"]
+
+[extra]
 read = "13 min"
 +++
 
-![](scammed.jpg)
+{{ img(src="scammed.jpg", alt="Old School RuneScape character in a Santa hat with the word Scammed above its head", lazy=false) }}
 
 I've had various nicknames.
 I've been liking this nickname, <span class="t">narigon</span> enough to the point I'd like to make it my online persona.
@@ -44,7 +46,7 @@ Should've known better. I thought they don't have PayPal in the country they're 
 
 At this point, around 30 minutes has passed. I start snooping around in their address to see if they're already trying to move the money.
 
-![Self transactions](selftx.jpg)
+{{ img(src="selftx.jpg", alt="Self transactions") }}
 
 Looks like they're pretty clueless. They have made two self transactions, presumably attempting to move the money somewhere else. They now only have around 10 dollars in their balance after all the network fees.
 

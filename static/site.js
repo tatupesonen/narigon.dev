@@ -1,40 +1,55 @@
-(function () {
+(() => {
   "use strict";
 
-  var withTransition = function (apply) {
-    if (document.startViewTransition) {
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+  const withTransition = (apply) => {
+    if (document.startViewTransition && !reducedMotion.matches) {
       document.startViewTransition(apply);
     } else {
       apply();
     }
   };
 
-  // ----- Theme toggle (light default, persisted) -----
-  var toggle = document.getElementById("theme-toggle");
-  var setIcon = function () {
+  // ----- Theme toggle (follows OS preference until explicitly set, persisted) -----
+  const toggle = document.getElementById("theme-toggle");
+  const setThemeColor = () => {
+    const color =
+      document.documentElement.dataset.theme === "dark" ? "#1a1712" : "#faf7f0";
+    document.querySelectorAll('meta[name="theme-color"]').forEach((m) => {
+      m.setAttribute("content", color);
+    });
+  };
+  const setIcon = () => {
     if (toggle) {
       toggle.textContent =
         document.documentElement.dataset.theme === "dark" ? "☀" : "☾";
     }
   };
   setIcon();
-  if (toggle) {
-    toggle.addEventListener("click", function () {
-      var next =
-        document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-      withTransition(function () {
-        document.documentElement.dataset.theme = next;
-        localStorage.setItem("narigon-theme", next);
-        setIcon();
-      });
+  toggle?.addEventListener("click", () => {
+    const next =
+      document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    withTransition(() => {
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("narigon-theme", next);
+      setIcon();
+      setThemeColor();
     });
-  }
+  });
+  // Track OS theme changes until the user picks a theme explicitly.
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    if (localStorage.getItem("narigon-theme")) return;
+    document.documentElement.dataset.theme = e.matches ? "dark" : "light";
+    setIcon();
+    setThemeColor();
+  });
 
   // ----- Home: move the avatar into the navbar when the hero scrolls away -----
-  var heroAvatar = document.querySelector(".hero > img");
+  const heroAvatar = document.querySelector(".hero > img");
   if (heroAvatar && document.querySelector(".home-nav-avatar")) {
     new IntersectionObserver(
-      function (entries) {
+      (entries) => {
         document.documentElement.classList.toggle(
           "avatar-in-nav",
           !entries[0].isIntersecting
@@ -47,53 +62,54 @@
   // ----- Discord presence via the Lanyard websocket (like the old site) -----
   // Subscribes to the configured Discord ID and keeps the line live:
   // Spotify > playing activity > bare status. Hidden until real data arrives.
-  var pres = document.querySelectorAll(".presence");
+  const pres = document.querySelectorAll(".presence");
   if (!pres.length) return;
-  var id = (pres[0].dataset.discordId || "").trim();
+  const id = (pres[0].dataset.discordId || "").trim();
   if (!id) return;
 
   // Resolve a Discord activity asset to an image URL (game logos come either
   // as app-assets or as "mp:external/..." media proxy paths).
-  var activityImage = function (activity) {
-    var img = activity.assets && (activity.assets.large_image || activity.assets.small_image);
+  const activityImage = (activity) => {
+    const img =
+      activity.assets && (activity.assets.large_image || activity.assets.small_image);
     if (!img) return null;
-    if (img.indexOf("mp:") === 0) {
-      return "https://media.discordapp.net/" + img.slice(3);
+    if (img.startsWith("mp:")) {
+      return `https://media.discordapp.net/${img.slice(3)}`;
     }
-    return "https://cdn.discordapp.com/app-assets/" + activity.application_id + "/" + img + ".png";
+    return `https://cdn.discordapp.com/app-assets/${activity.application_id}/${img}.png`;
   };
 
-  var card = document.getElementById("activity-card");
-  var progressTimer = null;
+  const card = document.getElementById("activity-card");
+  let progressTimer = null;
 
-  var fmtTime = function (ms) {
-    var total = Math.max(0, Math.floor(ms / 1000));
-    return Math.floor(total / 60) + ":" + String(total % 60).padStart(2, "0");
+  const fmtTime = (ms) => {
+    const total = Math.max(0, Math.floor(ms / 1000));
+    return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
   };
 
   // Live song progress from the Spotify timestamps, ticking locally.
-  var setProgress = function (timestamps) {
+  const setProgress = (timestamps) => {
     if (!card) return;
-    var progress = card.querySelector(".progress");
+    const progress = card.querySelector(".progress");
     clearInterval(progressTimer);
     if (!timestamps || !timestamps.start || !timestamps.end) {
       progress.hidden = true;
       return;
     }
-    var tick = function () {
-      var total = timestamps.end - timestamps.start;
-      var elapsed = Math.min(Date.now() - timestamps.start, total);
+    const tick = () => {
+      const total = timestamps.end - timestamps.start;
+      const elapsed = Math.min(Date.now() - timestamps.start, total);
       progress.querySelector(".fill").style.width =
-        Math.min(100, (elapsed / total) * 100) + "%";
+        `${Math.min(100, (elapsed / total) * 100)}%`;
       progress.querySelector(".ptime").textContent =
-        fmtTime(elapsed) + " / " + fmtTime(total);
+        `${fmtTime(elapsed)} / ${fmtTime(total)}`;
     };
     tick();
     progress.hidden = false;
     progressTimer = setInterval(tick, 1000);
   };
 
-  var setCard = function (kind, href, imgUrl, kicker, label, timestamps) {
+  const setCard = (kind, href, imgUrl, kicker, label, timestamps) => {
     if (!card) return;
     if (!kind) {
       card.hidden = true;
@@ -103,26 +119,27 @@
     card.dataset.kind = kind;
     if (href) card.setAttribute("href", href);
     else card.removeAttribute("href");
-    var art = card.querySelector(".art");
+    const art = card.querySelector(".art");
     if (imgUrl) {
       art.src = imgUrl;
       art.hidden = false;
-      art.onerror = function () { art.hidden = true; };
+      art.onerror = () => { art.hidden = true; };
     } else {
       art.hidden = true;
     }
     card.querySelector(".kicker-text").textContent = kicker;
-    var song = card.querySelector(".song");
-    var inner = song.querySelector(".inner");
+    const song = card.querySelector(".song");
+    const inner = song.querySelector(".inner");
     inner.textContent = label;
     setProgress(timestamps);
     card.hidden = false;
-    // Long titles scroll back and forth instead of truncating.
-    requestAnimationFrame(function () {
-      var overflow = inner.scrollWidth - song.clientWidth;
-      if (overflow > 4) {
-        song.style.setProperty("--song-scroll-shift", -overflow + "px");
-        song.style.setProperty("--song-scroll-dur", Math.max(6, overflow / 15 + 4) + "s");
+    // Long titles scroll back and forth instead of truncating
+    // (unless the user prefers reduced motion — then they just clip).
+    requestAnimationFrame(() => {
+      const overflow = inner.scrollWidth - song.clientWidth;
+      if (overflow > 4 && !reducedMotion.matches) {
+        song.style.setProperty("--song-scroll-shift", `${-overflow}px`);
+        song.style.setProperty("--song-scroll-dur", `${Math.max(6, overflow / 15 + 4)}s`);
         song.classList.add("scroll");
       } else {
         song.classList.remove("scroll");
@@ -130,7 +147,7 @@
     });
   };
 
-  var STATUS_LABELS = {
+  const STATUS_LABELS = {
     online: "online",
     idle: "idle",
     dnd: "do not disturb",
@@ -139,28 +156,28 @@
 
   // Temporarily disable an element's transitions across one style flush, so
   // cache-driven renders on navigation don't replay the entrance animation.
-  var withoutTransition = function (els) {
-    els.forEach(function (el) { el.style.transition = "none"; });
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        els.forEach(function (el) { el.style.transition = ""; });
+  const withoutTransition = (els) => {
+    els.forEach((el) => { el.style.transition = "none"; });
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        els.forEach((el) => { el.style.transition = ""; });
       });
     });
   };
 
-  var render = function (d, instant) {
+  const render = (d, instant) => {
     if (instant && card) {
-      withoutTransition([card].concat(Array.prototype.slice.call(pres)));
+      withoutTransition([card, ...pres]);
     }
-    var s = d.discord_status || "offline";
-    var game = (d.activities || []).find(function (x) { return x.type === 0; });
+    const s = d.discord_status || "offline";
+    const game = (d.activities || []).find((x) => x.type === 0);
     if (d.spotify) {
       setCard(
         "spotify",
-        "https://open.spotify.com/track/" + d.spotify.track_id,
+        `https://open.spotify.com/track/${d.spotify.track_id}`,
         d.spotify.album_art_url,
         "Currently listening to",
-        d.spotify.artist + " - " + d.spotify.song,
+        `${d.spotify.artist} - ${d.spotify.song}`,
         d.spotify.timestamps
       );
     } else if (game && s !== "offline") {
@@ -168,7 +185,7 @@
     } else {
       setCard(null);
     }
-    pres.forEach(function (p) {
+    pres.forEach((p) => {
       p.dataset.status = s;
       p.querySelector(".line").textContent = STATUS_LABELS[s] || s;
       p.hidden = false;
@@ -177,30 +194,30 @@
 
   // Render the last known presence immediately so navigation doesn't pop.
   try {
-    var cached = JSON.parse(sessionStorage.getItem("narigon-presence"));
+    const cached = JSON.parse(sessionStorage.getItem("narigon-presence"));
     if (cached) render(cached, true);
-  } catch (e) { /* no cache */ }
+  } catch { /* no cache */ }
 
-  var heartbeat = null;
-  var connect = function () {
-    var ws = new WebSocket("wss://api.lanyard.rest/socket");
-    ws.addEventListener("message", function (message) {
-      var incoming = JSON.parse(message.data);
+  let heartbeat = null;
+  const connect = () => {
+    const ws = new WebSocket("wss://api.lanyard.rest/socket");
+    ws.addEventListener("message", (message) => {
+      const incoming = JSON.parse(message.data);
       if (incoming.op === 1) {
         ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: id } }));
-        heartbeat = setInterval(function () {
+        heartbeat = setInterval(() => {
           ws.send(JSON.stringify({ op: 3 }));
-        }, (incoming.d && incoming.d.heartbeat_interval) || 30000);
+        }, incoming.d?.heartbeat_interval || 30000);
         return;
       }
       if (incoming.op === 0 && incoming.d) {
         try {
           sessionStorage.setItem("narigon-presence", JSON.stringify(incoming.d));
-        } catch (e) { /* storage full/blocked */ }
+        } catch { /* storage full/blocked */ }
         render(incoming.d);
       }
     });
-    ws.addEventListener("close", function () {
+    ws.addEventListener("close", () => {
       clearInterval(heartbeat);
       setTimeout(connect, 30000);
     });

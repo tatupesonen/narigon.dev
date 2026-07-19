@@ -3,7 +3,7 @@ title = "Kubernetes interpolation"
 description = "Neat Kubernetes interpolation trick"
 date = 2023-04-12
 
-[extra]
+[taxonomies]
 tags = ["Kubernetes", "Secrets"]
 +++
 

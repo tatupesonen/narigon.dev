@@ -1,7 +1,10 @@
 # narigon.dev
 
-Personal site and blog, built with [Zola](https://www.getzola.org/). Fully static,
-no external dependencies at runtime - fonts, images, and scripts are all vendored.
+Personal site and blog, built with [Zola](https://www.getzola.org/). Fully static -
+fonts, images, and scripts are all vendored. The one exception is the optional
+Discord presence widget, which talks to the Lanyard websocket and loads album/game
+art from Discord's CDN at runtime; set `extra.show_presence = false` to disable it
+and drop all external requests.
 
 The design was authored in Claude Design ("Modern minimal website redesign") and
 implemented as Zola templates: warm paper palette with a dark mode, Newsreader /
@@ -37,7 +40,7 @@ The PNGs are gitignored; CI regenerates them on every deploy.
 
 ## Deploying
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which generates the
+Pushing to `master` triggers `.github/workflows/deploy.yml`, which generates the
 OG images, runs `zola build`, and publishes `public/` to GitHub Pages.
 
 ## Content notes

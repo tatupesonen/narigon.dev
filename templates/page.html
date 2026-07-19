@@ -15,7 +15,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="article:published_time" content="{{ page.date }}">
-  <meta property="article:author" content="{{ config.extra.author }}">
+  {% if page.updated %}<meta property="article:modified_time" content="{{ page.updated }}">
+  {% endif %}<meta property="article:author" content="{{ config.extra.author }}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ page.title }}">
   <meta name="twitter:description" content="{{ page.description }}">
@@ -27,9 +28,10 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "{{ page.title }}",
-  "description": "{{ page.description }}",
+  "headline": {{ page.title | json_encode | safe }},
+  "description": {{ page.description | json_encode | safe }},
   "datePublished": "{{ page.date }}",
+  {% if page.updated %}"dateModified": "{{ page.updated }}",{% endif %}
   "url": "{{ page.permalink | safe }}",
   "image": "{{ page.permalink | safe }}og.png",
   "author": { "@type": "Person", "name": "{{ config.extra.author }}", "url": "{{ config.base_url | safe }}/" }
@@ -40,7 +42,7 @@
 {% block content %}
 <article>
   <div class="article-head">
-    <div class="meta">{{ page.date | date(format="%B %-d, %Y") }} · {% if page.extra.read %}{{ page.extra.read }}{% else %}{{ page.reading_time }} min{% endif %} read</div>
+    <div class="meta"><time datetime="{{ page.date }}">{{ page.date | date(format="%B %-d, %Y") }}</time>{% if page.updated %} · updated <time datetime="{{ page.updated }}">{{ page.updated | date(format="%B %-d, %Y") }}</time>{% endif %} · {% if page.extra.read %}{{ page.extra.read }}{% else %}{{ page.reading_time }} min{% endif %} read{% if page.taxonomies.tags %} · {% for tag in page.taxonomies.tags %}<a href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}</div>
     <h1>{{ page.title }}</h1>
     <p class="standfirst">{{ page.description }}</p>
   </div>
@@ -49,10 +51,13 @@
   </div>
 </article>
 <div class="article-nav">
-  <a href="/">← All posts</a>
+  <a href="/blog/">← All posts</a>
   <div class="spacer"></div>
+  {% if page.lower %}
+  <a class="prev" href="{{ page.lower.permalink | safe }}">← Newer: {{ page.lower.title }}</a>
+  {% endif %}
   {% if page.higher %}
-  <a class="next" href="{{ page.higher.permalink | safe }}">Next: {{ page.higher.title }} →</a>
+  <a class="next" href="{{ page.higher.permalink | safe }}">Older: {{ page.higher.title }} →</a>
   {% endif %}
 </div>
 {% endblock content %}
